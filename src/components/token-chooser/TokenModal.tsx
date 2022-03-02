@@ -1,14 +1,16 @@
-import React, { FC, Fragment, useEffect, useState } from 'react';
+import React, { FC, Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { TokenChooserMode, useTokenModal } from "./useTokenModal";
 import { TOKEN_LIST_URL } from "@jup-ag/core";
 import { SearchIcon } from "@heroicons/react/outline";
 import { PublicKey } from "@solana/web3.js";
+import Image from "next/image"
+
 import { Token } from "./constants";
+import { TokenChooserMode, useTokenModal } from "./useTokenModal";
 
 export const TokenModal: FC = () => {
   const { visible, setVisible, mode, setInput, setOutput } = useTokenModal();
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState("")
   const [tokens, setTokens] = useState<Token[]>([])
   useEffect(() => {
     fetch(TOKEN_LIST_URL["mainnet-beta"])
@@ -24,23 +26,23 @@ export const TokenModal: FC = () => {
     });
   const close = () => {
     setVisible(false)
-    setValue('')
+    setValue("")
   };
   let featuredTokens = [
     {
-      name: 'SOL',
+      name: "SOL",
       icon: tokens.find(x => x.symbol === "SOL")?.logoURI
     },
     {
-      name: 'PSOL',
+      name: "PSOL",
       icon: tokens.find(x => x.symbol === "PSOL")?.logoURI
     },
     {
-      name: 'USDC',
+      name: "USDC",
       icon: tokens.find(x => x.symbol === "USDC")?.logoURI
     },
     {
-      name: 'USDT',
+      name: "USDT",
       icon: tokens.find(x => x.symbol === "USDT")?.logoURI
     }
   ]
@@ -104,10 +106,10 @@ export const TokenModal: FC = () => {
                           close()
                         }}
                         className="p-3 flex gap-x-4 items-center text-left rounded-lg focus:outline-none -focus:ring focus:ring-purple-2 hover:bg-white hover:bg-opacity-5 focus:bg-white focus:bg-opacity-5">
-                        <img
+                        <Image
                           onError={({ currentTarget }) => {
                             currentTarget.onerror = null;
-                            currentTarget.src = 'https://raw.githubusercontent.com/parasol-labs-org/white-paper/main/logo.png'
+                            currentTarget.src = "https://raw.githubusercontent.com/parasol-labs-org/white-paper/main/logo.png"
                           }}
                           src={token.logoURI}
                           className="w-6 h-6"

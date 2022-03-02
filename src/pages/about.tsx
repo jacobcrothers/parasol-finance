@@ -1,9 +1,11 @@
-import Container from "../components/container";
 import { DownloadIcon, MailOpenIcon } from "@heroicons/react/outline";
+import Link from "next/link";
+import Image from "next/image"
+
+import Container from "../components/container";
 import Team from "../components/slices/team";
 import Layout from "../components/layout";
 import Hiring from "../components/slices/hiring";
-import Link from 'next/link'
 
 const About = () =>
   <Layout gap={24}>
@@ -73,7 +75,7 @@ const About = () =>
                       fill="url(#64e643ad-2176-4f86-b3d7-f2c5da3b6a6d)" />
                   </svg>
                 </div>
-                <img
+                <Image
                   className="w-full relative"
                   src="https://images.unsplash.com/photo-1556740758-90de374c12ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
                   alt=""
