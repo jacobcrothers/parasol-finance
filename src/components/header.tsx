@@ -2,7 +2,7 @@ import * as React from "react";
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
-
+import Image from "next/image";
 import {
   AnnotationIcon,
   BookOpenIcon,
@@ -26,7 +26,7 @@ const Header = () => (
         <div className="flex justify-start lg:w-0 lg:flex-1">
           <Link href={"/"}>
             <a>
-              <img src={Logo} className="h-5" alt="logo" />
+              <Image src={Logo} className="h-5" alt="logo" />
             </a>
           </Link>
         </div>
