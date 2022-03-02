@@ -64,6 +64,7 @@ const Swap = () => {
       setOBalance(0);
     }
     getRoutes().then();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input, output, wallet.publicKey]);
 
   useEffect(() => {
