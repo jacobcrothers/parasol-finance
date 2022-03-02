@@ -105,7 +105,7 @@ const Swap = () => {
   };
   const getRoutes = async (am = 0) => {
     let initialAmount = inputAmount;
-
+    
     if (am !== 0) {
       initialAmount = am;
     }
@@ -124,6 +124,7 @@ const Swap = () => {
       cluster,
       platformFeeAndAccounts,
     });
+
     const computeRoutes = await jupiter.computeRoutes({
       inputMint: input,
       outputMint: output,
@@ -131,6 +132,7 @@ const Swap = () => {
       slippage: 1,
     });
 
+    setRoutes([]);
     setRoutes(computeRoutes.routesInfos);
 
     setRoutePending(false);
