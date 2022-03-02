@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { BadgeCheckIcon } from "@heroicons/react/solid";
-import Image from "next/image"
 
 import BaseCard from "./base-card";
 
@@ -17,7 +16,7 @@ type ProjectDetails = {
 const ProjectCard = ({Id, Name, Description, Logo, Cover}: ProjectDetails) => (
   <BaseCard hoverEffect={true}>
     {Cover && <Link href={`/projects/${Id}`}>
-      <a>
+      <a style={{ position: "relative" }}>
         <img className="w-full rounded-t-lg" src={Cover} alt={`${Id}-cover`} />
       </a>
     </Link>}

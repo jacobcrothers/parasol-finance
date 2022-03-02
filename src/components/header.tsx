@@ -2,7 +2,7 @@ import * as React from "react";
 import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import Link from "next/link";
-import Image from "next/image";
+
 import {
   AnnotationIcon,
   BookOpenIcon,
@@ -26,7 +26,7 @@ const Header = () => (
         <div className="flex justify-start lg:w-0 lg:flex-1">
           <Link href={"/"}>
             <a>
-              <Image src={Logo} className="h-5" alt="logo" />
+              <img src={Logo} className="h-5" alt="logo" />
             </a>
           </Link>
         </div>
@@ -118,7 +118,7 @@ const Header = () => (
                         <div className="w-full border-t border-white border-opacity-10" />
                         <Link href="/tiers" passHref>
                           <a className="-m-3 p-3 flex items-center rounded-lg hover:bg-white hover:bg-opacity-5">
-                            <Image className="w-6 h-6 rounded-full" src="https://storage.googleapis.com/polkastarter-production-assets/tcwqly5amlb5m9b5uge0zfl4iwxm" width={0} height={0} alt="project"/>
+                            <img className="w-6 h-6 rounded-full" src="https://storage.googleapis.com/polkastarter-production-assets/tcwqly5amlb5m9b5uge0zfl4iwxm" width={0} height={0} alt="project"/>
                             <div className="ml-4">
                               <p className="flex items-center text-base font-medium text-white">
                                 Tina Arena
@@ -373,7 +373,7 @@ const Header = () => (
           <div className="pt-5 pb-6 px-5">
             <div className="flex items-center justify-between">
               <div>
-                <Image
+                <img
                   className="h-8 w-auto"
                   src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
                   alt="Workflow"

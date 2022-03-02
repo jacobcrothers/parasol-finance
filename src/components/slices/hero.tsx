@@ -69,7 +69,7 @@ const Hero = () => (
                       d="M41.3623,116.3066v15.94L61.0764,143.59a3.4042,3.4042,0,0,0,3.4226,0l12.0988-6.8334Z"/>
                   </g>
                 </svg>
-                {/*<Image src={ParasolLogo} />*/}
+                {/*<img src={ParasolLogo} />*/}
                                 Buy $PSOL With USDC
               </a>
             </Link>

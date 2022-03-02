@@ -4,7 +4,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { RadioGroup } from "@headlessui/react";
 import { PublicKey } from "@solana/web3.js";
 import { WalletAdapterNetwork} from "@solana/wallet-adapter-base";
-import Image from "next/image"
+
 import {
   TokenChooserMode,
   useTokenModal,
@@ -352,7 +352,7 @@ const Swap = () => {
                 type="button"
                 className="flex gap-x-2 py-2 px-2 rounded-lg flex items-center hover:bg-gray-500 hover:bg-opacity-10"
               >
-                <Image
+                <img
                   src={chosenInput.logoURI}
                   className="w-5 h-5 rounded-full"
                   alt={chosenInput.symbol}
@@ -407,7 +407,7 @@ const Swap = () => {
                 }}
                 className="flex gap-x-2 px-4 py-3 rounded-lg flex items-center bg-gray-500 bg-opacity-10 hover:bg-opacity-20"
               >
-                <Image
+                <img
                   src={chosenOutput.logoURI}
                   className="w-5 h-5 rounded-full"
                   alt={chosenOutput.symbol}

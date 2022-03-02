@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image"
 
 const Logo = require("/public/images/logos/parasol-logo-inverted-rgb.svg")
 
@@ -10,7 +9,7 @@ const Footer = () => (
         className="space-y-8 col-span-12 lg:col-span-1 justify-center items-center lg:items-start flex flex-col">
         <Link href={"/"}>
           <a className="flex-shrink-0 flex items-center">
-            <Image src={Logo} className="h-5" alt={"logo"}/>
+            <img src={Logo} className="h-5" alt={"logo"}/>
           </a>
         </Link>
         <p className="text-base">

@@ -2,6 +2,7 @@
   "extends": "next/core-web-vitals",
   "rules": {
     "indent": [2, 2],
-    "quotes": ["error", "double", { "avoidEscape": true }]
+    "quotes": ["error", "double", { "avoidEscape": true }],
+    "@next/next/no-img-element": "off"
   }
 }

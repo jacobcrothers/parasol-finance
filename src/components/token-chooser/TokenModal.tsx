@@ -3,7 +3,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import { TOKEN_LIST_URL } from "@jup-ag/core";
 import { SearchIcon } from "@heroicons/react/outline";
 import { PublicKey } from "@solana/web3.js";
-import Image from "next/image"
 
 import { Token } from "./constants";
 import { TokenChooserMode, useTokenModal } from "./useTokenModal";
@@ -106,7 +105,7 @@ export const TokenModal: FC = () => {
                           close()
                         }}
                         className="p-3 flex gap-x-4 items-center text-left rounded-lg focus:outline-none -focus:ring focus:ring-purple-2 hover:bg-white hover:bg-opacity-5 focus:bg-white focus:bg-opacity-5">
-                        <Image
+                        <img
                           onError={({ currentTarget }) => {
                             currentTarget.onerror = null;
                             currentTarget.src = "https://raw.githubusercontent.com/parasol-labs-org/white-paper/main/logo.png"

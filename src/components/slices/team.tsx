@@ -1,5 +1,3 @@
-import Image from "next/image"
-
 import Container from "../container";
 import { people } from "../../constants";
 
@@ -19,7 +17,7 @@ const Team = () => (
             //.sort(() => (Math.random() > .5) ? 1 : -1)
             <li key={person.name}>
               <div className="space-y-4">
-                <Image className="object-cover shadow-lg rounded-xl" src={person.picture}
+                <img className="object-cover shadow-lg rounded-xl" src={person.picture}
 								       alt={person.name}/>
                 <div className="space-y-2">
                   <div className="text-lg leading-6 font-medium space-y-1 mb-3">

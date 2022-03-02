@@ -1,6 +1,5 @@
 import { useRef } from "react";
 import { ShoppingBagIcon } from "@heroicons/react/outline";
-import Image from "next/image"
 
 // const ParasolLogo = require('/public/images/logos/parasol-logo-mark-reverse-rgb.svg');
 
@@ -34,7 +33,7 @@ const NftCard = ({ name, amount, poster, video, vestingPeriod, offset }: NftDeta
         </h3>
         <div className="flex items-baseline text-4xl xl:text-4xl lg:text-2xl font-extrabold">
           <span className="flex text-white gap-x-3 items-center">
-            <Image className="h-8" src="/images/logos/parasol-logo-mark-full-color-rgb.svg" alt="psol" />
+            <img className="h-8" src="/images/logos/parasol-logo-mark-full-color-rgb.svg" alt="psol" />
             <div className="flex items-end gap-x-2">
               {amount > 10000 ? (amount / 1000).toLocaleString("en-US", { minimumFractionDigits: 0 }) + "K" : amount.toLocaleString("en-US", { minimumFractionDigits: 0 })}
               <span className="text-2xl font-medium text-gray-200">PSOL</span>
