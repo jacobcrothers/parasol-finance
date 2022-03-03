@@ -427,11 +427,7 @@ const Swap = () => {
             </div>
           </div>
           <div className={"text-center text-gray-500 text-xs my-4"}>
-            {routes.length > 0 && !isRoutePending
-              ? routes.length + " routes found!"
-              : isRoutePending
-                ? "Finding routes..."
-                : "Please input the amount"}
+            {routes.length <= 0 && inputAmount > 0 ? "Routes are not found!" : routes.length > 0 && !isRoutePending ? routes.length + " routes found!" : isRoutePending ? "Finding routes..." : "Please input the amount"}
           </div>
           <RadioGroup
             className={
