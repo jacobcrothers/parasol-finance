@@ -17,6 +17,7 @@ import {
 } from "@jup-ag/core";
 
 import { Token } from "../components/token-chooser/constants";
+import Notification from "../components/slices/notification";
 import { useWalletModal } from "../components/wallet-connector";
 import { getWalletAdapterNetwork } from "../core/solana-network";
 
@@ -38,6 +39,7 @@ const Swap = () => {
   const [routes, setRoutes] = useState<RouteInfo[]>([]);
   const [isPending, setPending] = useState(false);
   const [isRoutePending, setRoutePending] = useState(false);
+  const [swapStatus, setSwapStatus] = useState(false);
 
   const cluster: WalletAdapterNetwork = getWalletAdapterNetwork(process.env.NETWORK);
 
@@ -111,8 +113,9 @@ const Swap = () => {
     }
 
     const amount = initialAmount * 10 ** (chosenInput?.decimals || 6);
-
+    
     if (amount === 0) {
+      setSwapStatus(false);
       setRoutes([]);
       return;
     }
@@ -131,6 +134,9 @@ const Swap = () => {
       inputAmount: amount,
       slippage: 1,
     });
+
+    if (computeRoutes.routesInfos.length > 0)
+      setSwapStatus(true);
 
     setRoutes([]);
     setRoutes(computeRoutes.routesInfos);
@@ -230,11 +236,10 @@ const Swap = () => {
     if (wallet.connected) {
       return (
         <button
+          id="swap-btn"
           onClick={startSwap}
-          className={
-            "flex items-center justify-center w-full gap-x-2 bg-gradient-to-r from-purple-1 to-purple-2 mt-6 px-5 py-4 text-lg font-medium rounded-lg"
-          }
-          disabled={isPending}
+          className={"flex items-center justify-center w-full gap-x-2 bg-gradient-to-r from-purple-1 to-purple-2 mt-6 px-5 py-4 text-lg font-medium rounded-lg"}
+          disabled={isPending || !swapStatus}
         >
           {/*<RefreshIcon className={"w-5 h-5"} />*/}
           {isPending ? (

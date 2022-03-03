@@ -23,3 +23,7 @@ input[type=number] {
 .scrollbar-thin::-webkit-scrollbar-thumb {
     border-radius: 1rem;
 }
+
+#swap-btn:disabled {
+    cursor: not-allowed;
+}
