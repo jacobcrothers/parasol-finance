@@ -34,7 +34,7 @@ const Swap = () => {
   const [swapStatus, setSwapStatus] = useState(false);
   const [swapResult, setSwapResult] = useState(false);
   const [balanceAvailalbe, setBalanceAvailable] = useState(true);
-  const [showNotification, setShowNotification] = useState(true);
+  const [showNotification, setShowNotification] = useState(false);
 
   const cluster: WalletAdapterNetwork = getWalletAdapterNetwork(process.env.NETWORK);
 
