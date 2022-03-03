@@ -1,12 +1,11 @@
 import type { NextPage } from "next"
 import Hero from "../components/slices/hero";
 import Projects from "../components/slices/projects";
-import Notification from "../components/slices/notification";
 import Layout from "../components/layout";
 
 const Home: NextPage = () =>
   <Layout>
-    <Notification title={"Successfully saved!"} source={"Anyone with a link can now view this"}/>
+    {/* <Notification title={"Successfully saved!"} source={"Anyone with a link can now view this"}/> */}
     <Hero />
     <Projects />
     {/*<Hiring />*/}

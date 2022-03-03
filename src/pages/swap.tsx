@@ -367,7 +367,7 @@ const Swap = () => {
                   setVisible(true);
                 }}
                 type="button"
-                className="flex gap-x-2 py-2 px-2 rounded-lg flex items-center hover:bg-gray-500 hover:bg-opacity-10"
+                className="gap-x-2 py-2 px-2 rounded-lg flex items-center hover:bg-gray-500 hover:bg-opacity-10"
               >
                 <img
                   src={chosenInput.logoURI}
@@ -423,7 +423,7 @@ const Swap = () => {
                   setMode(TokenChooserMode.Output);
                   setVisible(true);
                 }}
-                className="flex gap-x-2 px-4 py-3 rounded-lg flex items-center bg-gray-500 bg-opacity-10 hover:bg-opacity-20"
+                className="flex gap-x-2 px-4 py-3 rounded-lg items-center bg-gray-500 bg-opacity-10 hover:bg-opacity-20"
               >
                 <img
                   src={chosenOutput.logoURI}
@@ -474,7 +474,7 @@ const Swap = () => {
                   >
                     {({ active, checked }) => (
                       <>
-                        <div className="flex justify-between items-center justify-between w-full">
+                        <div className="flex justify-between items-center w-full">
                           <div className="text-sm">
                             <RadioGroup.Label
                               as="p"
@@ -539,7 +539,7 @@ const Swap = () => {
               <div className="text-black-50 dark:text-white-50">Rate</div>
               <div className="flex cursor-pointer text-black-50 dark:text-white-50 text-xs align-center text-right">
                 <span className="min-w-[9.5rem] max-w-full whitespace-nowrap">
-                 {inputAmount == 0 ? 0 : 1} {chosenInput?.symbol} ≈ {routes.length > 0 ? routes[0].outAmount / 10 ** (chosenOutput as any).decimals / inputAmount : 0.0} {chosenOutput?.symbol}
+                  {inputAmount == 0 ? 0 : 1} {chosenInput?.symbol} ≈ {routes.length > 0 ? routes[0].outAmount / 10 ** (chosenOutput as any).decimals / inputAmount : 0.0} {chosenOutput?.symbol}
                 </span>
               </div>
             </div>
