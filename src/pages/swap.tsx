@@ -247,7 +247,7 @@ const Swap = () => {
         <button
           id="swap-btn"
           onClick={startSwap}
-          className={"flex items-center justify-center w-full gap-x-2 bg-gradient-to-r from-purple-1 to-purple-2 mt-6 px-5 py-4 text-lg font-medium rounded-lg"}
+          className={`flex items-center justify-center w-full gap-x-2 bg-gradient-to-r from-purple-1 to-purple-2 mt-6 px-5 py-4 text-lg font-medium rounded-lg ${isPending || !swapStatus ? "opacity-50" : ""}`}
           disabled={isPending || !swapStatus}
         >
           {/*<RefreshIcon className={"w-5 h-5"} />*/}
