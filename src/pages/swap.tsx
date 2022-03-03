@@ -5,16 +5,8 @@ import { RadioGroup } from "@headlessui/react";
 import { PublicKey } from "@solana/web3.js";
 import { WalletAdapterNetwork} from "@solana/wallet-adapter-base";
 
-import {
-  TokenChooserMode,
-  useTokenModal,
-} from "../components/token-chooser/useTokenModal";
-import {
-  getPlatformFeeAccounts,
-  Jupiter,
-  RouteInfo,
-  TOKEN_LIST_URL,
-} from "@jup-ag/core";
+import { TokenChooserMode, useTokenModal } from "../components/token-chooser/useTokenModal";
+import { getPlatformFeeAccounts, Jupiter, RouteInfo, TOKEN_LIST_URL } from "@jup-ag/core";
 
 import { Token } from "../components/token-chooser/constants";
 import Notification from "../components/slices/notification";
@@ -396,9 +388,7 @@ const Swap = () => {
               }
             />
           </div>
-          {!balanceAvailalbe ? 
-            <div className="text-center text-red-500 text-xs my-4">Your balance is not enough to swap this amount</div>
-          : ""}
+          {!balanceAvailalbe ? <div className="text-center text-red-500 text-xs my-4">Your balance is not enough to swap this amount</div> : ""}
           <button className="flex mx-auto" onClick={onTokenChangeEvent}>
             <svg
               className={"h-4 mt-5 mb-2 text-gray-300"}
@@ -546,7 +536,7 @@ const Swap = () => {
               <div className="text-black-50 dark:text-white-50">Rate</div>
               <div className="flex cursor-pointer text-black-50 dark:text-white-50 text-xs align-center">
                 <span className="min-w-[9.5rem] max-w-full whitespace-nowrap">
-                  1 USDC ≈ 8.763594 PSOL
+                  1 {chosenInput?.symbol} ≈ {routes.length > 0 ? routes[0].outAmount / 10 ** (chosenOutput as any).decimals / inputAmount : 0.0} {chosenOutput?.symbol}
                 </span>
               </div>
             </div>
@@ -561,7 +551,7 @@ const Swap = () => {
                 Minimum Received
               </div>
               <div className="text-black-50 dark:text-white-50">
-                87.197765 PSOL
+                {routes.length > 0 ? routes[0].outAmount / 10 ** (chosenOutput as any).decimals : 0.0} {chosenOutput?.symbol}
               </div>
             </div>
             <div className="flex items-center justify-between text-xs">
