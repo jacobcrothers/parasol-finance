@@ -1,5 +1,12 @@
-const Notification = () => (
-  <div aria-live="assertive" className="fixed inset-0 z-30 flex items-end px-4 py-6 pointer-events-none sm:p-6">
+import { type } from "os"
+
+interface NotificationProps {
+  title: String,
+  source: String
+}
+
+const Notification: React.FC<NotificationProps> = ({title, source}) => {
+  return <div aria-live="assertive" className="fixed inset-0 z-30 flex items-end px-4 py-6 pointer-events-none sm:p-6">
     <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
       <div id="hideMe" className="max-w-sm w-full bg-[url('https://storage.googleapis.com/polkastarter-production-assets/jiq12ptcg86gphxhluu1b69sp33q')] rounded-xl pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
         {/*<div className={"p-4"}>*/}
@@ -14,8 +21,8 @@ const Notification = () => (
               </svg>
             </div>
             <div className="ml-3 w-0 flex-1 pt-0.5">
-              <p className="text-sm font-medium">Successfully saved!</p>
-              <p className="mt-1 text-sm text-gray-300">Anyone with a link can now view this
+              <p className="text-sm font-medium">{ title }</p>
+              <p className="mt-1 text-sm text-gray-300">{ source }
                 file.</p>
             </div>
             {/*<div className="ml-4 flex-shrink-0 flex">*/}
@@ -31,6 +38,6 @@ const Notification = () => (
       </div>
     </div>
   </div>
-)
+}
 
 export default Notification

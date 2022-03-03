@@ -41,6 +41,7 @@ const Swap = () => {
   const [isRoutePending, setRoutePending] = useState(false);
   const [swapStatus, setSwapStatus] = useState(false);
   const [balanceAvailalbe, setBalanceAvailable] = useState(true);
+  const [showNotification, setShowNotification] = useState(false);
 
   const cluster: WalletAdapterNetwork = getWalletAdapterNetwork(process.env.NETWORK);
 
@@ -203,6 +204,7 @@ const Swap = () => {
       if ("error" in swapResult) {
         alert(`Error:${swapResult.error}`);
       } else if ("txid" in swapResult) {
+        setShowNotification(true);
         console.log("Sucess:", swapResult.txid);
         console.log("Input:", swapResult.inputAmount);
         console.log("Output:", swapResult.outputAmount);
@@ -332,6 +334,7 @@ const Swap = () => {
   };
   return (
     <section className="pt-6 pb-20">
+      { showNotification ? <Notification title={"Transaction Success!"} source={"Transaction Success!"} /> : ""}
       <div className="flex flex-col gap-y-6 max-w-md mx-auto mt-6">
         <div className="bg-[#231f38] bg-opacity-80 shadow-xl rounded-xl shadow-half-strong border border-gray-800 p-8">
           <div className={"flex justify-between items-end mb-4"}>
