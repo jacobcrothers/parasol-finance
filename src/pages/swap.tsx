@@ -40,6 +40,7 @@ const Swap = () => {
   const [isPending, setPending] = useState(false);
   const [isRoutePending, setRoutePending] = useState(false);
   const [swapStatus, setSwapStatus] = useState(false);
+  const [balanceAvailalbe, setBalanceAvailable] = useState(true);
 
   const cluster: WalletAdapterNetwork = getWalletAdapterNetwork(process.env.NETWORK);
 
@@ -107,7 +108,7 @@ const Swap = () => {
   };
   const getRoutes = async (am = 0) => {
     let initialAmount = inputAmount;
-    
+
     if (am !== 0) {
       initialAmount = am;
     }
@@ -115,6 +116,7 @@ const Swap = () => {
     const amount = initialAmount * 10 ** (chosenInput?.decimals || 6);
     
     if (amount === 0) {
+      setBalanceAvailable(true);
       setSwapStatus(false);
       setRoutes([]);
       return;
@@ -137,11 +139,21 @@ const Swap = () => {
 
     if (computeRoutes.routesInfos.length > 0)
       setSwapStatus(true);
+    else {
+      setSwapStatus(false);
+    }
 
     setRoutes([]);
     setRoutes(computeRoutes.routesInfos);
 
     setRoutePending(false);
+    
+    if (iBalance < inputAmount) {
+      setBalanceAvailable(false);
+      setSwapStatus(false);
+    } else {
+      setBalanceAvailable(true);
+    }
   };
 
   const startSwap = async () => {
@@ -349,7 +361,7 @@ const Swap = () => {
               </button>
             </div>
           </div>
-          <div className="flex justify-between items-stretch bg-white bg-opacity-5 rounded-xl px-4 py-3">
+          <div className={`flex justify-between items-stretch bg-white bg-opacity-5 rounded-xl px-4 py-3 ${balanceAvailalbe ? "outline-hidden" : "outline outline-red-700"}`}>
             {chosenInput && (
               <button
                 onClick={() => {
@@ -381,6 +393,9 @@ const Swap = () => {
               }
             />
           </div>
+          {!balanceAvailalbe ? 
+            <div className="text-center text-red-500 text-xs my-4">Your balance is not enough to swap this amount</div>
+          : ""}
           <button className="flex mx-auto" onClick={onTokenChangeEvent}>
             <svg
               className={"h-4 mt-5 mb-2 text-gray-300"}
