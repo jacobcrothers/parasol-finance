@@ -32,8 +32,9 @@ const Swap = () => {
   const [isPending, setPending] = useState(false);
   const [isRoutePending, setRoutePending] = useState(false);
   const [swapStatus, setSwapStatus] = useState(false);
+  const [swapResult, setSwapResult] = useState(false);
   const [balanceAvailalbe, setBalanceAvailable] = useState(true);
-  const [showNotification, setShowNotification] = useState(false);
+  const [showNotification, setShowNotification] = useState(true);
 
   const cluster: WalletAdapterNetwork = getWalletAdapterNetwork(process.env.NETWORK);
 
@@ -194,8 +195,10 @@ const Swap = () => {
       });
       console.log(swapResult);
       if ("error" in swapResult) {
+        setSwapResult(false);
         alert(`Error:${swapResult.error}`);
       } else if ("txid" in swapResult) {
+        setSwapResult(true);
         setShowNotification(true);
         console.log("Sucess:", swapResult.txid);
         console.log("Input:", swapResult.inputAmount);
@@ -326,7 +329,7 @@ const Swap = () => {
   };
   return (
     <section className="pt-6 pb-20">
-      { showNotification ? <Notification title={"Transaction Success!"} source={"Transaction Success!"} /> : ""}
+      { showNotification ? <Notification title={swapResult ? "Transaction Success!" : "Transaction Faild!"} source={swapResult ? "Transaction Success!": "Transaction Faild!"} color={swapResult ? "bg-green-700" : "bg-red-700"} /> : ""}
       <div className="flex flex-col gap-y-6 max-w-md mx-auto mt-6">
         <div className="bg-[#231f38] bg-opacity-80 shadow-xl rounded-xl shadow-half-strong border border-gray-800 p-8">
           <div className={"flex justify-between items-end mb-4"}>
@@ -534,9 +537,9 @@ const Swap = () => {
           <div className="space-y-2 md:space-y-4">
             <div className="flex items-center justify-between text-xs">
               <div className="text-black-50 dark:text-white-50">Rate</div>
-              <div className="flex cursor-pointer text-black-50 dark:text-white-50 text-xs align-center">
+              <div className="flex cursor-pointer text-black-50 dark:text-white-50 text-xs align-center text-right">
                 <span className="min-w-[9.5rem] max-w-full whitespace-nowrap">
-                  1 {chosenInput?.symbol} ≈ {routes.length > 0 ? routes[0].outAmount / 10 ** (chosenOutput as any).decimals / inputAmount : 0.0} {chosenOutput?.symbol}
+                 {inputAmount == 0 ? 0 : 1} {chosenInput?.symbol} ≈ {routes.length > 0 ? routes[0].outAmount / 10 ** (chosenOutput as any).decimals / inputAmount : 0.0} {chosenOutput?.symbol}
                 </span>
               </div>
             </div>
