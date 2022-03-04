@@ -20,6 +20,7 @@ import { Token } from "../components/token-chooser/constants";
 import Notification from "../components/slices/notification";
 import { useWalletModal } from "../components/wallet-connector";
 import { getWalletAdapterNetwork } from "../core/solana-network";
+import { Int } from "@solana/buffer-layout";
 type selectedType = {
   marketInfos: any;
 };
@@ -57,7 +58,7 @@ const Swap = () => {
       new PublicKey(process.env.PLATFORM_FEE_ADDRESS as any) // The platform fee account owner. Need to fetch this from the env
     ).then((r) => {
       setPlatformFeeAndAccounts({
-        feeBps: 50,
+        feeBps: parseFloat(process.env.PLATFORM_FEE_PERCENTAGE as any) * 100,
         feeAccounts: r,
       });
     });
