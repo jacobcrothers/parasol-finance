@@ -11,10 +11,6 @@ const nextConfig = {
     }
     return config;
   },
-  images: {
-    domains: ["storage.googleapis.com", "raw.githubusercontent.com"],
-    formats: ["image/avif", "image/webp"],
-  },
   env: {
     NETWORK: process.env.NETWORK || "dev",
     PLATFORM_FEE_ADDRESS: process.env.PLATFORM_FEE_ADDRESS || "",
