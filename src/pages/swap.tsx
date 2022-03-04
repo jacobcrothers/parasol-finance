@@ -20,20 +20,11 @@ import { Token } from "../components/token-chooser/constants";
 import Notification from "../components/slices/notification";
 import { useWalletModal } from "../components/wallet-connector";
 import { getWalletAdapterNetwork } from "../core/solana-network";
-import { Int } from "@solana/buffer-layout";
-type selectedType = {
-  marketInfos: any;
-  inAmount: any;
-  outAmount: any;
-  outAmountWithSlippage: any;
-  priceImpactPct: any;
-  getDepositAndFee: any;
-};
 
 const Swap = () => {
   const { connection } = useConnection();
   const wallet = useWallet();
-  const [selected, setSelected] = useState<selectedType>();
+  const [selected, setSelected] = useState<RouteInfo>();
   const { setVisible, setMode, input, output, setInput, setOutput } =
     useTokenModal();
   const walletModal = useWalletModal();
@@ -179,7 +170,7 @@ const Swap = () => {
     let chosenRoute = routes[0];
 
     if (selected) {
-      chosenRoute = selected as RouteInfo;
+      chosenRoute = selected;
     }
 
     if (
