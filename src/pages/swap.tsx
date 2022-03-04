@@ -23,6 +23,11 @@ import { getWalletAdapterNetwork } from "../core/solana-network";
 import { Int } from "@solana/buffer-layout";
 type selectedType = {
   marketInfos: any;
+  inAmount: any;
+  outAmount: any;
+  outAmountWithSlippage: any;
+  priceImpactPct: any;
+  getDepositAndFee: any;
 };
 
 const Swap = () => {
