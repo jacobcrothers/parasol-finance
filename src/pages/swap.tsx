@@ -174,7 +174,7 @@ const Swap = () => {
     let chosenRoute = routes[0];
 
     if (selected) {
-      chosenRoute = selected;
+      chosenRoute = selected as RouteInfo;
     }
 
     if (
