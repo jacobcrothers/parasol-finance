@@ -263,7 +263,7 @@ const Swap = () => {
     }
   };
 
-  const swap = function () {
+  const swap = () => {
     if (wallet.connected) {
       return (
         <button
@@ -351,6 +351,17 @@ const Swap = () => {
       // return <WalletConnect />
     }
   };
+
+  const calcRate = () => {
+    if (routes.length > 0)
+      return (
+        routes[0].outAmount /
+        10 ** (chosenOutput as any).decimals /
+        inputAmount
+      ).toFixed(6);
+    else return 0.0 + " ";
+  };
+
   return (
     <section className="pt-6 pb-20">
       {showNotification ? (
@@ -581,13 +592,7 @@ const Swap = () => {
               <div className="flex cursor-pointer text-black-50 dark:text-white-50 text-xs align-center text-right">
                 <span className="min-w-[9.5rem] max-w-full whitespace-nowrap">
                   {inputAmount == 0 ? 0 : 1} {chosenInput?.symbol} ≈{" "}
-                  {routes.length > 0
-                    ? (
-                        routes[0].outAmount /
-                        10 ** (chosenOutput as any).decimals /
-                        inputAmount
-                      ).toFixed(6)
-                    : 0.0}{" "}
+                  {calcRate()}
                   {chosenOutput?.symbol}
                 </span>
               </div>
