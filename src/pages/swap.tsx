@@ -86,7 +86,7 @@ const Swap = () => {
 
   useEffect(() => {
     isSwapAvailable();
-  })
+  });
 
   const chosenInput = tokens.find((x) => x.address === input.toString());
   const chosenOutput = tokens.find((x) => x.address === output.toString());
@@ -128,7 +128,7 @@ const Swap = () => {
       setBalanceAvailable(true);
       setSwapStatus(false);
       setRoutes([]);
-      setRate('0');
+      setRate("0");
       return;
     }
 
@@ -375,7 +375,7 @@ const Swap = () => {
     } else {
       setBalanceAvailable(true);
     }
-  }
+  };
 
   return (
     <section className="pt-6 pb-20">
