@@ -20,6 +20,7 @@ import { Token } from "../components/token-chooser/constants";
 import Notification from "../components/slices/notification";
 import { useWalletModal } from "../components/wallet-connector";
 import { getWalletAdapterNetwork } from "../core/solana-network";
+import { route } from "next/dist/server/router";
 
 const Swap = () => {
   const { connection } = useConnection();
@@ -43,6 +44,7 @@ const Swap = () => {
   const [swapResult, setSwapResult] = useState(false);
   const [balanceAvailalbe, setBalanceAvailable] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
+  const [rate, setRate] = useState("0");
 
   const cluster: WalletAdapterNetwork = getWalletAdapterNetwork(
     process.env.NETWORK
@@ -82,6 +84,10 @@ const Swap = () => {
     setPending(isRoutePending);
   }, [isRoutePending]);
 
+  useEffect(() => {
+    isSwapAvailable();
+  })
+
   const chosenInput = tokens.find((x) => x.address === input.toString());
   const chosenOutput = tokens.find((x) => x.address === output.toString());
 
@@ -118,11 +124,11 @@ const Swap = () => {
     }
 
     const amount = initialAmount * 10 ** (chosenInput?.decimals || 6);
-
     if (amount === 0) {
       setBalanceAvailable(true);
       setSwapStatus(false);
       setRoutes([]);
+      setRate('0');
       return;
     }
 
@@ -141,8 +147,11 @@ const Swap = () => {
       slippage: 1,
     });
 
-    if (computeRoutes.routesInfos.length > 0) setSwapStatus(true);
-    else {
+    if (computeRoutes.routesInfos.length > 0) {
+      setSwapStatus(true);
+      let rate = calcRate(computeRoutes.routesInfos);
+      setRate(rate);
+    } else {
       setSwapStatus(false);
     }
 
@@ -151,13 +160,6 @@ const Swap = () => {
     setSelected(computeRoutes.routesInfos[0] || undefined);
 
     setRoutePending(false);
-
-    if (iBalance < inputAmount) {
-      setBalanceAvailable(false);
-      setSwapStatus(false);
-    } else {
-      setBalanceAvailable(true);
-    }
   };
 
   const startSwap = async () => {
@@ -352,15 +354,28 @@ const Swap = () => {
     }
   };
 
-  const calcRate = () => {
-    if (routes.length > 0)
+  const calcRate = (all_routes: any) => {
+    if (all_routes.length > 0) {
       return (
-        routes[0].outAmount /
-        10 ** (chosenOutput as any).decimals /
-        inputAmount
-      ).toFixed(6);
-    else return 0.0 + " ";
+        (
+          all_routes[0].outAmount /
+          10 ** (chosenOutput as any).decimals /
+          inputAmount
+        ).toFixed(6) + " "
+      );
+    } else {
+      return 0.0 + " ";
+    }
   };
+
+  const isSwapAvailable = () => {
+    if (iBalance < inputAmount) {
+      setBalanceAvailable(false);
+      setSwapStatus(false);
+    } else {
+      setBalanceAvailable(true);
+    }
+  }
 
   return (
     <section className="pt-6 pb-20">
@@ -591,8 +606,7 @@ const Swap = () => {
               <div className="text-black-50 dark:text-white-50">Rate</div>
               <div className="flex cursor-pointer text-black-50 dark:text-white-50 text-xs align-center text-right">
                 <span className="min-w-[9.5rem] max-w-full whitespace-nowrap">
-                  {inputAmount == 0 ? 0 : 1} {chosenInput?.symbol} ≈{" "}
-                  {calcRate()}
+                  {inputAmount == 0 ? 0 : 1} {chosenInput?.symbol} ≈ {rate}
                   {chosenOutput?.symbol}
                 </span>
               </div>
