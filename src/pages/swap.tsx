@@ -41,7 +41,7 @@ const Swap = () => {
   const [isRoutePending, setRoutePending] = useState(false);
   const [swapStatus, setSwapStatus] = useState(false);
   const [swapResult, setSwapResult] = useState(false);
-  const [balanceAvailalbe, setBalanceAvailable] = useState(true);
+  const [balanceAvailable, setBalanceAvailable] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
   const [rate, setRate] = useState("0");
 
@@ -85,7 +85,7 @@ const Swap = () => {
 
   useEffect(() => {
     isSwapAvailable();
-  });
+  }, [inputAmount, input]);
 
   const chosenInput = tokens.find((x) => x.address === input.toString());
   const chosenOutput = tokens.find((x) => x.address === output.toString());
@@ -374,6 +374,7 @@ const Swap = () => {
       setSwapStatus(false);
     } else {
       setBalanceAvailable(true);
+      setSwapStatus(true);
     }
   };
 
@@ -419,7 +420,7 @@ const Swap = () => {
           </div>
           <div
             className={`flex justify-between items-stretch bg-white bg-opacity-5 rounded-xl px-4 py-3 ${
-              balanceAvailalbe ? "outline-hidden" : "outline outline-red-700"
+              balanceAvailable ? "outline-hidden" : "outline outline-red-700"
             }`}
           >
             {chosenInput && (
@@ -453,7 +454,7 @@ const Swap = () => {
               }
             />
           </div>
-          {!balanceAvailalbe ? (
+          {!balanceAvailable ? (
             <div className="text-center text-red-500 text-xs my-4">
               Your balance is not enough to swap this amount
             </div>
