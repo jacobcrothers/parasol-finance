@@ -84,6 +84,10 @@ const Swap = () => {
     setPending(isRoutePending);
   }, [isRoutePending]);
 
+  useEffect(() => {
+    isSwapAvailable();
+  })
+
   const chosenInput = tokens.find((x) => x.address === input.toString());
   const chosenOutput = tokens.find((x) => x.address === output.toString());
 
@@ -120,11 +124,11 @@ const Swap = () => {
     }
 
     const amount = initialAmount * 10 ** (chosenInput?.decimals || 6);
-
     if (amount === 0) {
       setBalanceAvailable(true);
       setSwapStatus(false);
       setRoutes([]);
+      setRate('0');
       return;
     }
 
@@ -156,13 +160,7 @@ const Swap = () => {
     setSelected(computeRoutes.routesInfos[0] || undefined);
 
     setRoutePending(false);
-
-    if (iBalance < inputAmount) {
-      setBalanceAvailable(false);
-      setSwapStatus(false);
-    } else {
-      setBalanceAvailable(true);
-    }
+    isSwapAvailable();
   };
 
   const startSwap = async () => {
@@ -370,6 +368,15 @@ const Swap = () => {
       return 0.0 + " ";
     }
   };
+
+  const isSwapAvailable = () => {
+    if (iBalance < inputAmount) {
+      setBalanceAvailable(false);
+      setSwapStatus(false);
+    } else {
+      setBalanceAvailable(true);
+    }
+  }
 
   return (
     <section className="pt-6 pb-20">
