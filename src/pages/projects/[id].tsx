@@ -6,16 +6,16 @@ import Markdown from "markdown-to-jsx";
 
 import Container from "../../components/container";
 
-const project =
-{
-  id: "flippies",
-  name: "Orion Money",
-  description: "Thetan Arena is an esport game based on blockchain technology",
-  logo: "https://storage.googleapis.com/polkastarter-production-assets/aovnyvd72hvhc5l8ab2e9404jq0h",
-  cover: "https://storage.googleapis.com/polkastarter-production-assets/nfy5nnqh2v55q1dbfcynrqeipzcb"
-};
+// const project =
+// {
+//   id: "flippies",
+//   name: "Orion Money",
+//   description: "Thetan Arena is an esport game based on blockchain technology",
+//   logo: "https://storage.googleapis.com/polkastarter-production-assets/aovnyvd72hvhc5l8ab2e9404jq0h",
+//   cover: "https://storage.googleapis.com/polkastarter-production-assets/nfy5nnqh2v55q1dbfcynrqeipzcb"
+// };
 
-const Logo = require("/public/images/team/Anthony.png")
+// const Logo = require("/public/images/team/Anthony.png")
 
 const markdown = `![](https://storage.googleapis.com/polkastarter-production-assets/h3bth4ctn32w62tmrk7a9cewyxn8)
 
@@ -46,36 +46,36 @@ Purus morbi dignissim senectus mattis [adipiscing](#). Amet, massa quam varius o
 Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus enim. Mattis mauris semper sed amet vitae sed turpis id. Id dolor praesent donec est. Odio penatibus risus viverra tellus varius sit neque erat velit.
 `
 
-const renderers = {
-  //This custom renderer changes how images are rendered
-  //we use it to constrain the max width of an image to its container
-  image: ({
-    alt,
-    src,
-    title,
-  }: {
-		alt?: string;
-		src?: string;
-		title?: string;
-	}) => (
-    <img
-      alt={alt}
-      src={src as any}
-      title={title} />
-  ),
-};
+// const renderers = {
+//   //This custom renderer changes how images are rendered
+//   //we use it to constrain the max width of an image to its container
+//   image: ({
+//     alt,
+//     src,
+//     title,
+//   }: {
+// 		alt?: string;
+// 		src?: string;
+// 		title?: string;
+// 	}) => (
+//     <img
+//       alt={alt}
+//       src={src as any}
+//       title={title} />
+//   ),
+// };
 
 let amount = 300000;
 
 const ProjectDetails = () => {
-  const router = useRouter()
-  const {id} = router.query;
+  // const router = useRouter()
+  // const {id} = router.query;
 
-  const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [blogs, setBlogs] = useState([]);
+  // const [error, setError] = useState(null);
+  // const [isLoaded, setIsLoaded] = useState(false);
+  // const [blogs, setBlogs] = useState([]);
 
-  useEffect(() => {
+  // useEffect(() => {
     // fetch("https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@nutanbhogendrasharma/")
     // 	.then(res => res.json())
     // 	.then(
@@ -88,7 +88,7 @@ const ProjectDetails = () => {
     // 			setError(error);
     // 		}
     // 	)
-  }, [])
+  // }, [])
 
   return <section className="pt-6">
     <Container>

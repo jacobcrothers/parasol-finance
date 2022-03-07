@@ -20,7 +20,6 @@ import { Token } from "../components/token-chooser/constants";
 import Notification from "../components/slices/notification";
 import { useWalletModal } from "../components/wallet-connector";
 import { getWalletAdapterNetwork } from "../core/solana-network";
-import { route } from "next/dist/server/router";
 
 const Swap = () => {
   const { connection } = useConnection();
@@ -149,10 +148,11 @@ const Swap = () => {
 
     if (computeRoutes.routesInfos.length > 0) {
       setSwapStatus(true);
-      let rate = calcRate(computeRoutes.routesInfos);
+      const rate = calcRate(computeRoutes.routesInfos);
       setRate(rate);
     } else {
       setSwapStatus(false);
+      setRate("0");
     }
 
     setRoutes([]);
@@ -354,11 +354,11 @@ const Swap = () => {
     }
   };
 
-  const calcRate = (all_routes: any) => {
-    if (all_routes.length > 0) {
+  const calcRate = (allRoutes: any) => {
+    if (allRoutes.length > 0) {
       return (
         (
-          all_routes[0].outAmount /
+          allRoutes[0].outAmount /
           10 ** (chosenOutput as any).decimals /
           inputAmount
         ).toFixed(6) + " "
@@ -606,7 +606,7 @@ const Swap = () => {
               <div className="text-black-50 dark:text-white-50">Rate</div>
               <div className="flex cursor-pointer text-black-50 dark:text-white-50 text-xs align-center text-right">
                 <span className="min-w-[9.5rem] max-w-full whitespace-nowrap">
-                  {inputAmount == 0 ? 0 : 1} {chosenInput?.symbol} ≈ {rate}
+                  {rate == "0" ? 0 : 1} {chosenInput?.symbol} ≈ {rate}
                   {chosenOutput?.symbol}
                 </span>
               </div>
