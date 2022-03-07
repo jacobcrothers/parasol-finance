@@ -160,7 +160,6 @@ const Swap = () => {
     setSelected(computeRoutes.routesInfos[0] || undefined);
 
     setRoutePending(false);
-    isSwapAvailable();
   };
 
   const startSwap = async () => {
