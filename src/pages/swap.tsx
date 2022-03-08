@@ -3,6 +3,7 @@ import { ChevronDownIcon } from "@heroicons/react/outline";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { RadioGroup } from "@headlessui/react";
 import { PublicKey } from "@solana/web3.js";
+import { BigNumber } from "bignumber.js";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 
 import {
@@ -29,7 +30,7 @@ const Swap = () => {
     useTokenModal();
   const walletModal = useWalletModal();
   const [tokens, setTokens] = useState<Token[]>([]);
-  const [inputAmount, setInputAmount] = useState(0.0);
+  const [inputAmount, setInputAmount] = useState(0);
   const [platformFeeAndAccounts, setPlatformFeeAndAccounts] = useState<{
     feeBps: number;
     feeAccounts: Map<string, PublicKey>;
@@ -142,7 +143,7 @@ const Swap = () => {
     const computeRoutes = await jupiter.computeRoutes({
       inputMint: input,
       outputMint: output,
-      inputAmount: amount,
+      inputAmount: parseInt(amount.toString()),
       slippage: 1,
     });
 
