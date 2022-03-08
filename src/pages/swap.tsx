@@ -44,6 +44,7 @@ const Swap = () => {
   const [swapResult, setSwapResult] = useState(false);
   const [balanceAvailable, setBalanceAvailable] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
+  const [transactionFee, SetTransactionFee] = useState(0);
   const [rate, setRate] = useState("0");
 
   const cluster: WalletAdapterNetwork = getWalletAdapterNetwork(
@@ -72,7 +73,8 @@ const Swap = () => {
       setIBalance(0);
       setOBalance(0);
     }
-    getRoutes().then();
+
+    getRoutes(inputAmount).then();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [input, output, wallet.publicKey]);
 
@@ -121,6 +123,11 @@ const Swap = () => {
 
     if (am !== 0) {
       initialAmount = am;
+    } else if (am === 0) {
+      setRate("0");
+      setRoutes([]);
+      SetTransactionFee(0);
+      return;
     }
 
     const amount = initialAmount * 10 ** (chosenInput?.decimals || 6);
@@ -129,6 +136,7 @@ const Swap = () => {
       setSwapStatus(false);
       setRoutes([]);
       setRate("0");
+      SetTransactionFee(0);
       return;
     }
 
@@ -143,13 +151,13 @@ const Swap = () => {
     const computeRoutes = await jupiter.computeRoutes({
       inputMint: input,
       outputMint: output,
-      inputAmount: parseInt(amount.toString()),
+      inputAmount: +amount,
       slippage: 1,
     });
 
     if (computeRoutes.routesInfos.length > 0) {
       setSwapStatus(true);
-      const rate = calcRate(computeRoutes.routesInfos);
+      const rate = calcRate(computeRoutes.routesInfos, am);
       setRate(rate);
     } else {
       setSwapStatus(false);
@@ -159,6 +167,7 @@ const Swap = () => {
     setRoutes([]);
     setRoutes(computeRoutes.routesInfos);
     setSelected(computeRoutes.routesInfos[0] || undefined);
+    SetTransactionFee(computeRoutes.routesInfos[0].marketInfos[0].lpFee.pct);
 
     setRoutePending(false);
   };
@@ -219,9 +228,10 @@ const Swap = () => {
   };
   const getMaxAmount = () => {
     if (wallet.connected) {
-      setInputAmount(+iBalance);
+      const val = restrictDecimal(+iBalance);
+      setInputAmount(val);
       if (inputAmount !== +iBalance) {
-        getRoutes(+iBalance);
+        getRoutes(val);
       }
     } else {
       console.log("Please connect wallet");
@@ -229,9 +239,10 @@ const Swap = () => {
   };
   const getHalfAmount = () => {
     if (wallet.connected) {
-      setInputAmount(+iBalance / 2);
+      const val = restrictDecimal(+iBalance / 2);
+      setInputAmount(val);
       if (inputAmount !== +iBalance / 2) {
-        getRoutes(+iBalance / 2);
+        getRoutes(val);
       }
     } else {
       console.log("Please connect wallet");
@@ -355,15 +366,19 @@ const Swap = () => {
     }
   };
 
-  const calcRate = (allRoutes: any) => {
+  const calcRate = (allRoutes: any, inputVal: any) => {
     if (allRoutes.length > 0) {
-      return (
-        (
-          allRoutes[0].outAmount /
-          10 ** (chosenOutput as any).decimals /
-          inputAmount
-        ).toFixed(6) + " "
-      );
+      if (inputVal == 0) {
+        return 0.0 + " ";
+      } else {
+        return (
+          (
+            allRoutes[0].outAmount /
+            10 ** (chosenOutput as any).decimals /
+            inputVal
+          ).toFixed(6) + " "
+        );
+      }
     } else {
       return 0.0 + " ";
     }
@@ -374,8 +389,13 @@ const Swap = () => {
       setBalanceAvailable(false);
       setSwapStatus(false);
     } else if (iBalance == inputAmount) {
-      setBalanceAvailable(true);
-      setSwapStatus(true);
+      if (inputAmount === 0) {
+        setSwapStatus(false);
+        setBalanceAvailable(false);
+      } else {
+        setBalanceAvailable(true);
+        setSwapStatus(true);
+      }
     } else {
       if (inputAmount === 0) {
         setSwapStatus(false);
@@ -385,6 +405,10 @@ const Swap = () => {
         setBalanceAvailable(true);
       }
     }
+  };
+
+  const restrictDecimal = (val: any) => {
+    return Number(val.toFixed(chosenInput?.decimals));
   };
 
   return (
@@ -456,7 +480,7 @@ const Swap = () => {
               type={"number"}
               inputMode="decimal"
               value={inputAmount}
-              onChange={(e) => setInputAmount(+e.target.value)}
+              onChange={(e) => setInputAmount(restrictDecimal(+e.target.value))}
               onBlur={onBlurIAmountEvent}
               className={
                 "bg-transparent outline-0 ring-0 border-transparent font-semibold text-right text-gray-300 text-lg w-full"
@@ -665,9 +689,7 @@ const Swap = () => {
                 ></span>
               </div>
               <div className="text-black-50 dark:text-white-50">
-                {selected?.marketInfos[0].lpFee.pct
-                  ? selected?.marketInfos[0].lpFee.pct
-                  : 0}{" "}
+                {transactionFee + " "}
                 SOL
               </div>
             </div>
