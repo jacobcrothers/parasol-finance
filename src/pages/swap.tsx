@@ -39,7 +39,7 @@ const Swap = () => {
   const [routes, setRoutes] = useState<RouteInfo[]>([]);
   const [isPending, setPending] = useState(false);
   const [isRoutePending, setRoutePending] = useState(false);
-  const [swapStatus, setSwapStatus] = useState(false);
+  const [swapStatus, setSwapStatus] = useState(true);
   const [swapResult, setSwapResult] = useState(false);
   const [balanceAvailable, setBalanceAvailable] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
@@ -85,7 +85,7 @@ const Swap = () => {
 
   useEffect(() => {
     isSwapAvailable();
-  }, [inputAmount, input]);
+  }, [inputAmount, input, iBalance, swapStatus, balanceAvailable]);
 
   const chosenInput = tokens.find((x) => x.address === input.toString());
   const chosenOutput = tokens.find((x) => x.address === output.toString());
@@ -372,9 +372,17 @@ const Swap = () => {
     if (iBalance < inputAmount) {
       setBalanceAvailable(false);
       setSwapStatus(false);
-    } else {
+    } else if (iBalance == inputAmount) {
       setBalanceAvailable(true);
       setSwapStatus(true);
+    } else {
+      if (inputAmount === 0) {
+        setSwapStatus(false);
+        setBalanceAvailable(false);
+      } else {
+        setSwapStatus(true);
+        setBalanceAvailable(true);
+      }
     }
   };
 
