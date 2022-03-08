@@ -45,6 +45,7 @@ const Swap = () => {
   const [balanceAvailable, setBalanceAvailable] = useState(true);
   const [showNotification, setShowNotification] = useState(false);
   const [transactionFee, SetTransactionFee] = useState(0);
+  const [requestable, setRequestable] = useState(false);
   const [rate, setRate] = useState("0");
 
   const cluster: WalletAdapterNetwork = getWalletAdapterNetwork(
@@ -74,9 +75,9 @@ const Swap = () => {
       setOBalance(0);
     }
 
-    getRoutes(inputAmount).then();
+    getRoutes().then();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [input, output, wallet.publicKey]);
+  }, [input, output, requestable, wallet.publicKey]);
 
   useEffect(() => {
     setPending(walletModal.visible);
@@ -118,19 +119,15 @@ const Swap = () => {
       setOBalance(0);
     }
   };
-  const getRoutes = async (am = 0) => {
-    let initialAmount = inputAmount;
-
-    if (am !== 0) {
-      initialAmount = am;
-    } else if (am === 0) {
+  const getRoutes = async () => {
+    if (inputAmount === 0) {
       setRate("0");
       setRoutes([]);
       SetTransactionFee(0);
       return;
     }
 
-    const amount = initialAmount * 10 ** (chosenInput?.decimals || 6);
+    const amount = inputAmount * 10 ** (chosenInput?.decimals || 6);
     if (amount === 0) {
       setBalanceAvailable(true);
       setSwapStatus(false);
@@ -157,7 +154,7 @@ const Swap = () => {
 
     if (computeRoutes.routesInfos.length > 0) {
       setSwapStatus(true);
-      const rate = calcRate(computeRoutes.routesInfos, am);
+      const rate = calcRate(computeRoutes.routesInfos, inputAmount);
       setRate(rate);
     } else {
       setSwapStatus(false);
@@ -227,28 +224,31 @@ const Swap = () => {
     setPending(false);
   };
   const getMaxAmount = () => {
+    setRequestable(!requestable);
     if (wallet.connected) {
       const val = restrictDecimal(+iBalance);
       setInputAmount(val);
       if (inputAmount !== +iBalance) {
-        getRoutes(val);
+        setInputAmount(val);
       }
     } else {
       console.log("Please connect wallet");
     }
   };
   const getHalfAmount = () => {
+    setRequestable(!requestable);
     if (wallet.connected) {
       const val = restrictDecimal(+iBalance / 2);
       setInputAmount(val);
       if (inputAmount !== +iBalance / 2) {
-        getRoutes(val);
+        setInputAmount(val);
       }
     } else {
       console.log("Please connect wallet");
     }
   };
   const onBlurIAmountEvent = () => {
+    setRequestable(!requestable);
     if (
       routes.length === 0 ||
       inputAmount * 10 ** (chosenInput?.decimals || 6) !== routes[0].inAmount
