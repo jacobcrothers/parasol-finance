@@ -14,15 +14,52 @@ import {
   ProgramConfig,
   User,
 } from "parasol-finance-sdk";
-import { Keypair, PublicKey } from "@solana/web3.js";
+import { Keypair, MAX_SEED_LENGTH, PublicKey } from "@solana/web3.js";
 
 const Tiers = function () {
   const { connection } = useConnection();
   const { publicKey, sendTransaction } = useWallet();
   const wallet = useWallet();
 
-  const [showNotification, setShowNotification] = useState(false);
-  const [mintResult, setMintResult] = useState(0);
+  const tiers = [
+    {
+      id: 0,
+      name: "Dreamer",
+      amount: 210,
+      logo: "/images/tiers/covers/Dreamer.png",
+      video: "https://parasol.finance/_nuxt/videos/1.4914065.mp4",
+      vestingPeriod: 12,
+    },
+    {
+      id: 1,
+      name: "Rider",
+      amount: 2100,
+      logo: "/images/tiers/covers/Rider.png",
+      video: "https://parasol.finance/_nuxt/videos/2.b97bbf5.mp4",
+      vestingPeriod: 8,
+    },
+    {
+      id: 2,
+      name: "Chiller",
+      amount: 21000,
+      logo: "/images/tiers/covers/Chiller.png",
+      video: "https://parasol.finance/_nuxt/videos/3.7803a7c.mp4",
+      vestingPeriod: 6,
+    },
+    {
+      id: 3,
+      name: "MoonWalker",
+      amount: 210000,
+      logo: "/images/tiers/covers/MoonWalker.png",
+      video: "https://parasol.finance/_nuxt/videos/4.93829ce.mp4",
+      vestingPeriod: 4,
+    },
+  ];
+
+  const [notificationMsg, setNotificationMsg] = useState({
+    msg: "",
+    status: "error",
+  });
 
   const config: ProgramConfig = {
     mint: new PublicKey(process.env.NEXT_PUBLIC_MINT as any),
@@ -43,16 +80,16 @@ const Tiers = function () {
       const signature = await sendTransaction(tx, connection, {
         signers: [mintKeypair],
       });
-      setMintResult(0);
-      setShowNotification(true);
+      setNotificationMsg({ msg: "Minting an NFT Now....", status: "pending" });
       await connection.confirmTransaction(signature, "processed");
     } catch (err) {
-      setMintResult(2);
-      setShowNotification(true);
+      setNotificationMsg({ msg: "Minting an NFT is failed!", status: "error" });
       return false;
     }
-    setMintResult(1);
-    setShowNotification(true);
+    setNotificationMsg({
+      msg: "Successfully minted an NFT",
+      status: "success",
+    });
   };
 
   return (
@@ -72,34 +109,21 @@ const Tiers = function () {
                 >
                   Our NFT Access Keys
                 </a>
-                {showNotification}
                 <p className="mt-5 max-w-prose mx-auto text-sm lg:text-base text-gray-200">
                   Ready to Buy your NFT Access Key using $PSOL token?
                 </p>
               </div>
             </div>
-            {showNotification ? (
+            {notificationMsg.msg.length > 0 ? (
               <Notification
-                title={
-                  mintResult == 0
-                    ? "Minting an NFT Now...."
-                    : mintResult == 1
-                      ? "Successfully minted an NFT"
-                      : "Minting an NFT is failed!"
-                }
-                source={
-                  mintResult == 0
-                    ? "Minting an NFT Now...."
-                    : mintResult == 1
-                      ? "Successfully minted an NFT"
-                      : "Minting an NFT is failed!"
-                }
+                title={notificationMsg.msg}
+                source={notificationMsg.msg}
                 color={
-                  mintResult == 0
+                  notificationMsg.status == "pending"
                     ? "bg-gray-700"
-                    : mintResult == 1
-                      ? "bg-green-700"
-                      : "bg-red-700"
+                    : notificationMsg.status == "error"
+                      ? "bg-red-700"
+                      : "bg-green-700"
                 }
               />
             ) : (
@@ -125,42 +149,18 @@ const Tiers = function () {
       <section>
         <Container fluid={false}>
           <div className="grid grid-cols-4 gap-x-7">
-            <NftCard
-              name="Dreamer"
-              amount={210}
-              index={0}
-              poster="/images/tiers/covers/Dreamer.png"
-              video="https://parasol.finance/_nuxt/videos/1.4914065.mp4"
-              vestingPeriod={12}
-              buyNFT={buyNFT}
-            />
-            <NftCard
-              name="Rider"
-              amount={2100}
-              index={1}
-              poster="/images/tiers/covers/Rider.png"
-              video="https://parasol.finance/_nuxt/videos/2.b97bbf5.mp4"
-              vestingPeriod={8}
-              buyNFT={buyNFT}
-            />
-            <NftCard
-              name="Chiller"
-              amount={21000}
-              index={2}
-              poster="/images/tiers/covers/Chiller.png"
-              video="https://parasol.finance/_nuxt/videos/3.7803a7c.mp4"
-              vestingPeriod={6}
-              buyNFT={buyNFT}
-            />
-            <NftCard
-              name="MoonWalker"
-              amount={210000}
-              index={3}
-              poster="/images/tiers/covers/MoonWalker.png"
-              video="https://parasol.finance/_nuxt/videos/4.93829ce.mp4"
-              vestingPeriod={4}
-              buyNFT={buyNFT}
-            />
+            {tiers.map((t, index) => (
+              <NftCard
+                key={t.id}
+                name={t.name}
+                amount={t.amount}
+                index={index}
+                poster={t.logo}
+                video={t.video}
+                vestingPeriod={t.vestingPeriod}
+                buyNFT={buyNFT}
+              />
+            ))}
           </div>
         </Container>
       </section>
