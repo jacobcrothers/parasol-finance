@@ -40,7 +40,7 @@ const Migrate = () => {
     mint: new PublicKey(process.env.NEXT_PUBLIC_MINT as any),
   };
 
-  const config1: ProgramConfig = {
+  const collection: ProgramConfig = {
     mint: new PublicKey("8Fa7vSiLYjMtMCoaBKMrehr4xwrhZpFfeoJ5YZbw58SY"),
   };
 
@@ -57,7 +57,7 @@ const Migrate = () => {
 
     try {
       const mintKeypair = Keypair.generate();
-      const tx = await user.redeem(adapter.program, config1.mint);
+      const tx = await user.redeem(adapter.program, collection.mint);
       const signature = await sendTransaction(tx, connection);
       setNotificationMsg({
         msg: "Doing redeem an NFT Now....",
