@@ -129,69 +129,74 @@ const Migrate = () => {
               nisi ut aliquip ex ea commodo consequat.
             </p>
           </div>
-          <Listbox value={selected} onChange={setSelected}>
-            <div className=" mt-1">
-              <Listbox.Button className="relative w-full py-3 pl-3 pr-10 text-left bg-white bg-opacity-5 rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-                <span className="block truncate">
-                  {selected ? selected.data.name : ""}
-                </span>
-                <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                  <SelectorIcon
-                    className="w-5 h-5 text-gray-400"
-                    aria-hidden="true"
-                  />
-                </span>
-              </Listbox.Button>
-              <Transition
-                as={Fragment}
-                leave="transition ease-in duration-100"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-              >
-                <Listbox.Options className="absolute w-64 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                  {nftsmetadata.map((nft, index) => (
-                    <Listbox.Option
-                      key={index}
-                      className={({ active }) =>
-                        `cursor-default select-none relative py-2 px-4 ${
-                          active ? "text-white bg-purple-2" : "text-gray-900"
-                        }`
-                      }
-                      value={nft}
-                    >
-                      {({ selected }) => (
-                        <>
-                          <span
-                            className={`block truncate ${
-                              selected ? "font-medium" : "font-normal"
-                            }`}
-                          >
-                            {nft.data.name}
-                          </span>
-                          {/*{selected ? (*/}
-                          {/*	<span*/}
-                          {/*		className="absolute inset-y-0 left-0 flex items-center pl-3 text-white"><CheckIcon*/}
-                          {/*		className="w-5 h-5" aria-hidden="true"/></span>*/}
-                          {/*) : null}*/}
-                        </>
-                      )}
-                    </Listbox.Option>
-                  ))}
-                </Listbox.Options>
-              </Transition>
-            </div>
-          </Listbox>
-          <button
-            className={
-              "w-full bg-gradient-to-r from-purple-1 to-purple-2 px-5 py-4 text-lg font-medium rounded-lg"
-            }
-            onClick={redeemNFT}
-          >
-            Redeem My NFT
-          </button>
+          {nftsmetadata.length > 0 ?
+            <Listbox value={selected} onChange={setSelected}>
+              <div className=" mt-1">
+                <Listbox.Button className="relative w-full py-3 pl-3 pr-10 text-left bg-white bg-opacity-5 rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
+                  <span className="block truncate">
+                    {selected ? selected.data.name : ""}
+                  </span>
+                  <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <SelectorIcon
+                      className="w-5 h-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </span>
+                </Listbox.Button>
+                <Transition
+                  as={Fragment}
+                  leave="transition ease-in duration-100"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <Listbox.Options className="absolute w-64 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                    {nftsmetadata.map((nft, index) => (
+                      <Listbox.Option
+                        key={index}
+                        className={({ active }) =>
+                          `cursor-default select-none relative py-2 px-4 ${
+                            active ? "text-white bg-purple-2" : "text-gray-900"
+                          }`
+                        }
+                        value={nft}
+                      >
+                        {({ selected }) => (
+                          <>
+                            <span
+                              className={`block truncate ${
+                                selected ? "font-medium" : "font-normal"
+                              }`}
+                            >
+                              {nft.data.name}
+                            </span>
+                          </>
+                        )}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox.Options>
+                </Transition>
+              </div>
+            </Listbox> : 
+            <div className={"prose prose-lg prose-invert"}>
+              <Link href={"/tiers"}>
+                <a className="inline-flex gap-x-2 items-centertext-gray-200">
+                  No NFT access key. Please buy NFTs in this page
+                </a>
+              </Link>
+            </div> }
+          {nftsmetadata.length > 0 ? 
+            <button
+              className={
+                "w-full bg-gradient-to-r from-purple-1 to-purple-2 px-5 py-4 text-lg font-medium rounded-lg"
+              }
+              onClick={redeemNFT}
+            >
+              Redeem My NFT
+            </button> : '' }
         </CardHost>
       </div>
     </section>
+    
   );
 };
 
