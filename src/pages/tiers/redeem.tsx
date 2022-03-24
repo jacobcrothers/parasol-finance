@@ -62,35 +62,33 @@ const Migrate = () => {
 
   const redeemNFT = async () => {
     if (!selected) return;
+    const adapter = await new ProgramAdapter(provider, config);
+    const nftStore = await new NftStore(adapter.config.mint).build();
+    const user = await new User(adapter.program.provider, nftStore).build();
 
-    console.log(selected,"+++++++");
-    // const adapter = await new ProgramAdapter(provider, config);
-    // const nftStore = await new NftStore(adapter.config.mint).build();
-    // const user = await new User(adapter.program.provider, nftStore).build();
+    const collection: ProgramConfig = {
+      mint: new PublicKey(selected.mint),
+    };
 
-    // const collection: ProgramConfig = {
-    //   mint: new PublicKey(selected.mint),
-    // };
-
-    // try {
-    //   const tx = await user.redeem(adapter.program, collection.mint);
-    //   const signature = await sendTransaction(tx, connection);
-    //   setNotificationMsg({
-    //     msg: "Doing redeem an NFT Now....",
-    //     status: "pending",
-    //   });
-    //   await connection.confirmTransaction(signature, "processed");
-    // } catch (err) {
-    //   setNotificationMsg({
-    //     msg: "Doing redeem an NFT is failed!",
-    //     status: "error",
-    //   });
-    //   return false;
-    // }
-    // setNotificationMsg({
-    //   msg: "Successfully did redeem an NFT",
-    //   status: "success",
-    // });
+    try {
+      const tx = await user.redeem(adapter.program, collection.mint);
+      const signature = await sendTransaction(tx, connection);
+      setNotificationMsg({
+        msg: "Doing redeem an NFT Now....",
+        status: "pending",
+      });
+      await connection.confirmTransaction(signature, "processed");
+    } catch (err) {
+      setNotificationMsg({
+        msg: "Doing redeem an NFT is failed!",
+        status: "error",
+      });
+      return false;
+    }
+    setNotificationMsg({
+      msg: "Successfully did redeem an NFT",
+      status: "success",
+    });
   };
 
   return (
