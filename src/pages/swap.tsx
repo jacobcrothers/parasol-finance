@@ -97,10 +97,10 @@ const Swap = () => {
   const getIOBalance = async () => {
     const [iResult, oResult] = await Promise.all([
       connection.getParsedTokenAccountsByOwner(wallet.publicKey as any, {
-        mint: input,
+        mint: input
       }),
       connection.getParsedTokenAccountsByOwner(wallet.publicKey as any, {
-        mint: output,
+        mint: output
       }),
     ]);
 
