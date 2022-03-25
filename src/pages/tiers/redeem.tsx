@@ -3,7 +3,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/solid";
 import { ArrowLeftIcon } from "@heroicons/react/outline";
 import Link from "next/link";
-import { Program, Provider } from "@project-serum/anchor";
+import { Provider } from "@project-serum/anchor";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import Notification from "../../components/slices/notification";
 import { NftContext } from "../../context/NftContext";
@@ -15,7 +15,6 @@ import {
   User,
 } from "parasol-finance-sdk";
 import { PublicKey } from "@solana/web3.js";
-import { Connection } from "@metaplex/js";
 import {
   Metadata,
   MetadataData,
@@ -25,10 +24,10 @@ import CardHost from "../../components/cards/base-card";
 
 const Migrate = () => {
   const { connection } = useConnection();
-  const { publicKey, sendTransaction } = useWallet();
+  const { sendTransaction } = useWallet();
   const wallet = useWallet();
 
-  const { nfts, setNfts } = React.useContext(NftContext);
+  const { metaConnection, nfts, setNfts } = React.useContext(NftContext);
 
   useEffect(() => {
     getMetadata();
@@ -53,9 +52,8 @@ const Migrate = () => {
 
   const getMetadata = async () => {
     if (!wallet.publicKey) return;
-    const connection1 = new Connection("https://api.devnet.solana.com");
     const nftsmetadata = await Metadata.findDataByOwner(
-      connection1,
+      metaConnection,
       wallet.publicKey
     );
     setNfts(nftsmetadata);
