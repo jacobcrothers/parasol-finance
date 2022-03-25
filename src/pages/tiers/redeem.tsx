@@ -27,7 +27,7 @@ const Migrate = () => {
   const { sendTransaction } = useWallet();
   const wallet = useWallet();
 
-  const { metaConnection, nfts, setNfts } = React.useContext(NftContext);
+  const { nfts, setNfts } = React.useContext(NftContext);
 
   useEffect(() => {
     getMetadata();
@@ -53,7 +53,7 @@ const Migrate = () => {
   const getMetadata = async () => {
     if (!wallet.publicKey) return;
     const nftsmetadata = await Metadata.findDataByOwner(
-      metaConnection,
+      connection,
       wallet.publicKey
     );
     setNfts(nftsmetadata);
