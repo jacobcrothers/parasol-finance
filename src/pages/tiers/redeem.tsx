@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useContext } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/solid";
 import { ArrowLeftIcon } from "@heroicons/react/outline";
@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Program, Provider } from "@project-serum/anchor";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import Notification from "../../components/slices/notification";
+import { NftContext } from "../../context/NftContext";
 
 import {
   NftStore,
@@ -27,23 +28,13 @@ const Migrate = () => {
   const { publicKey, sendTransaction } = useWallet();
   const wallet = useWallet();
 
-  const [nftsmetadata, setNftMetaData] = useState<MetadataData[]>([]);
+  const { nfts, setNfts } = React.useContext(NftContext);
 
   useEffect(() => {
-    const getMetdata = async () => {
-      if (!wallet.publicKey) return;
-      const connection1 = new Connection("https://api.devnet.solana.com");
-      const nftsmetadata = await Metadata.findDataByOwner(
-        connection1,
-        wallet.publicKey
-      );
-      setNftMetaData(nftsmetadata);
-    };
-
-    getMetdata();
+    getMetadata();
   }, [wallet.connected]);
 
-  useEffect(() => setSelected(nftsmetadata[0]), [nftsmetadata]);
+  useEffect(() => setSelected(nfts[0]), [nfts]);
 
   const [notificationMsg, setNotificationMsg] = useState({
     msg: "",
@@ -59,6 +50,16 @@ const Migrate = () => {
   });
 
   const [selected, setSelected] = useState<MetadataData>();
+
+  const getMetadata = async () => {
+    if (!wallet.publicKey) return;
+    const connection1 = new Connection("https://api.devnet.solana.com");
+    const nftsmetadata = await Metadata.findDataByOwner(
+      connection1,
+      wallet.publicKey
+    );
+    setNfts(nftsmetadata);
+  };
 
   const redeemNFT = async () => {
     if (!selected) return;
@@ -89,6 +90,9 @@ const Migrate = () => {
       msg: "Successfully did redeem an NFT",
       status: "success",
     });
+
+    setNfts([]);
+    getMetadata();
   };
 
   return (
@@ -127,7 +131,7 @@ const Migrate = () => {
               nisi ut aliquip ex ea commodo consequat.
             </p>
           </div>
-          {nftsmetadata.length > 0 ? (
+          {nfts.length > 0 ? (
             <Listbox value={selected} onChange={setSelected}>
               <div className=" mt-1">
                 <Listbox.Button className="relative w-full py-3 pl-3 pr-10 text-left bg-white bg-opacity-5 rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
@@ -148,7 +152,7 @@ const Migrate = () => {
                   leaveTo="opacity-0"
                 >
                   <Listbox.Options className="absolute w-64 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                    {nftsmetadata.map((nft, index) => (
+                    {nfts.map((nft: any, index: any) => (
                       <Listbox.Option
                         key={index}
                         className={({ active }) =>
@@ -184,7 +188,7 @@ const Migrate = () => {
               </Link>
             </div>
           )}
-          {nftsmetadata.length > 0 ? (
+          {nfts.length > 0 ? (
             <button
               className={
                 "w-full bg-gradient-to-r from-purple-1 to-purple-2 px-5 py-4 text-lg font-medium rounded-lg"
