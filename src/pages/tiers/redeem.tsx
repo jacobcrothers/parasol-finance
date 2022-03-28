@@ -15,10 +15,6 @@ import {
   User,
 } from "parasol-finance-sdk";
 import { PublicKey } from "@solana/web3.js";
-import {
-  Metadata,
-  MetadataData,
-} from "@metaplex-foundation/mpl-token-metadata";
 
 import CardHost from "../../components/cards/base-card";
 
@@ -27,9 +23,14 @@ const Migrate = () => {
   const { sendTransaction } = useWallet();
   const wallet = useWallet();
 
+  const [adapter, setAdapter] = useState<any>();
+  const [nftStore, setNftStore] = useState<any>();
+  const [user, setUser] = useState<any>();
+
   const { nfts, setNfts } = React.useContext(NftContext);
 
   useEffect(() => {
+    if (!wallet.connected) return;
     getMetadata();
   }, [wallet.connected]);
 
@@ -48,23 +49,21 @@ const Migrate = () => {
     preflightCommitment: "confirmed",
   });
 
-  const [selected, setSelected] = useState<MetadataData>();
+  const [selected, setSelected] = useState<any>();
 
   const getMetadata = async () => {
-    if (!wallet.publicKey) return;
-    const nftsmetadata = await Metadata.findDataByOwner(
-      connection,
-      wallet.publicKey
-    );
+    const adapter = await new ProgramAdapter(provider, config);
+    setAdapter(adapter);
+    const nftStore = await new NftStore(adapter.config.mint).build();
+    setNftStore(nftStore);
+    const user = await new User(adapter.program.provider, nftStore).build();
+    setUser(user);
+
+    const nftsmetadata = await user.getNFTList(adapter.program);
     setNfts(nftsmetadata);
   };
 
   const redeemNFT = async () => {
-    if (!selected) return;
-    const adapter = await new ProgramAdapter(provider, config);
-    const nftStore = await new NftStore(adapter.config.mint).build();
-    const user = await new User(adapter.program.provider, nftStore).build();
-
     const collection: ProgramConfig = {
       mint: new PublicKey(selected.mint),
     };
@@ -134,7 +133,7 @@ const Migrate = () => {
               <div className=" mt-1">
                 <Listbox.Button className="relative w-full py-3 pl-3 pr-10 text-left bg-white bg-opacity-5 rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
                   <span className="block truncate">
-                    {selected ? selected.data.name + " - " + selected.mint : ""}
+                    {selected ? selected.name + " - " + selected.mint : ""}
                   </span>
                   <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                     <SelectorIcon
@@ -167,7 +166,7 @@ const Migrate = () => {
                                 selected ? "font-medium" : "font-normal"
                               }`}
                             >
-                              {nft.data.name + " - " + nft.mint}
+                              {nft.name + " - " + nft.mint}
                             </span>
                           </>
                         )}
