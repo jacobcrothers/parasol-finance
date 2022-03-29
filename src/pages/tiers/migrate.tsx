@@ -53,7 +53,6 @@ const Migrate = () => {
     setUser(user);
 
     const nftsmetadata = await user.getNFTList(adapter.program);
-    console.log(nftsmetadata, "++++++++");
     setNfts(nftsmetadata);
   };
 
