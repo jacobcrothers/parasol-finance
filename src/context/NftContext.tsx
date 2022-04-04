@@ -16,7 +16,6 @@ import { PublicKey } from "@solana/web3.js";
 interface Context {
   setNfts: (n: any) => void;
   nfts: any;
-  provider: any;
   nftStore: any;
   nftKinds: any;
   user: any;
@@ -24,6 +23,7 @@ interface Context {
   migrator: any;
   wallet: any;
   config: any;
+  provider: any,
 }
 
 export const NftContext = createContext<Context>({
@@ -73,7 +73,6 @@ export const NftProvider: React.FC<React.ReactNode> = ({ children }) => {
     setMigrator(migrator);
     const helper = new RpcHelper(provider);
     setHelper(helper);
-
   };
 
   const setData = (n: any): void => {
@@ -91,7 +90,7 @@ export const NftProvider: React.FC<React.ReactNode> = ({ children }) => {
         helper,
         migrator,
         config,
-        wallet: useWallet()
+        wallet: useWallet(),
       }}
     >
       {children}

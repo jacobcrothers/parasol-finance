@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { SwitchVerticalIcon, UploadIcon } from "@heroicons/react/outline";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
@@ -8,48 +8,51 @@ import NftCard from "../../components/cards/nft-card";
 import Notification from "../../components/slices/notification";
 import { NftContext } from "../../context/NftContext";
 import { Keypair, PublicKey } from "@solana/web3.js";
+import { NftKind } from "parasol-finance-sdk";
+import Head from "next/head";
 
 const Tiers = function () {
   const { connection } = useConnection();
   const { sendTransaction } = useWallet();
-
-  const { wallet, user, nftKinds } = React.useContext(NftContext);
-
-  const tiers = [
+  const [ferchTiers, setFerchTiers] = useState(false);
+  const [tiers, setTiers] = useState<any>([
     {
       id: 0,
       name: "Dreamer",
       amount: 210,
-      logo: "/images/tiers/covers/Dreamer.png",
-      video: "https://parasol.finance/_nuxt/videos/1.4914065.mp4",
+      logo: "/assets/nft-access-keys/covers/Dreamer.png",
+      video: "/assets/nft-access-keys/videos/Dreamer.mp4",
       vestingPeriod: 12,
     },
     {
       id: 1,
       name: "Rider",
       amount: 2100,
-      logo: "/images/tiers/covers/Rider.png",
-      video: "https://parasol.finance/_nuxt/videos/2.b97bbf5.mp4",
+      logo: "/assets/nft-access-keys/covers/Rider.png",
+      video: "/assets/nft-access-keys/videos/Rider.mp4",
       vestingPeriod: 8,
     },
     {
       id: 2,
       name: "Chiller",
       amount: 21000,
-      logo: "/images/tiers/covers/Chiller.png",
-      video: "https://parasol.finance/_nuxt/videos/3.7803a7c.mp4",
+      logo: "/assets/nft-access-keys/covers/Chiller.png",
+      video: "/assets/nft-access-keys/videos/Chiller.mp4",
       vestingPeriod: 6,
-      owned: true
+      owned: true,
     },
     {
       id: 3,
       name: "MoonWalker",
       amount: 210000,
-      logo: "/images/tiers/covers/MoonWalker.png",
-      video: "https://parasol.finance/_nuxt/videos/4.93829ce.mp4",
+      logo: "/assets/nft-access-keys/covers/MoonWalker.png",
+      video: "/assets/nft-access-keys/videos/MoonWalker.mp4",
       vestingPeriod: 4,
     },
-  ];
+  ]);
+
+  const { provider, nfts, setNfts, wallet, user } =
+    React.useContext(NftContext);
 
   const [notificationMsg, setNotificationMsg] = useState({
     msg: "",
@@ -59,11 +62,14 @@ const Tiers = function () {
   const buyNFT = async (index: number) => {
     try {
       const mintKeypair = Keypair.generate();
-      const tx = await user.purchase(mintKeypair.publicKey, nftKinds[index]);
-      const signature = await sendTransaction(tx, connection, { signers: [mintKeypair] });
+      const tx = await user.purchase(mintKeypair.publicKey, index);
+      const signature = await sendTransaction(tx, connection, {
+        signers: [mintKeypair],
+      });
       setNotificationMsg({ msg: "Minting an NFT Now....", status: "pending" });
       await connection.confirmTransaction(signature, "confirmed");
-    } catch (err) {
+    } 
+    catch (err) {
       setNotificationMsg({ msg: "Minting an NFT is failed!", status: "error" });
       return false;
     }
@@ -73,12 +79,39 @@ const Tiers = function () {
     });
   };
 
+  useEffect(() => {
+    const nftKindData = async () => {
+      const nftKinds = await Promise.all(
+        [0, 1, 2, 3].map((tier) => new NftKind(provider, tier).build())
+      );
+      const tiersDataArray: any = tiers;
+      await Promise.all(
+        nftKinds.map(async (nftKind: any) => {
+          const data = await nftKind.data();
+          tiersDataArray[nftKind.tier].data = data;
+        })
+      );
+      setTiers(tiersDataArray);
+      setFerchTiers(true);
+    };
+    nftKindData();
+  }, []);
+
   return (
     <>
+      <Head>
+        <title>Parasol Finance ($PSOL) | NFT Access Keys</title>
+        <meta
+          name="title"
+          content="Parasol Finance ($PSOL) | NFT Access Keys"
+        />
+        <meta property="og:image" content="/images/preview/tiers.png" />
+        <meta property="twitter:image" content="/images/preview/tiers.png" />
+      </Head>
       <section>
         <Container>
           <div className={"grid grid-cols-3  pt-10 pb-16"}>
-            <div className={"flex gap-x-2 items-center"}></div>
+            <div className={"flex gap-x-2 items-center"} />
             <div>
               <div className="text-center">
                 <h2 className="text-base font-semibold tracking-wider mb-3 text-purple-400 uppercase">
@@ -102,9 +135,7 @@ const Tiers = function () {
                 color={
                   notificationMsg.status == "pending"
                     ? "bg-gray-700"
-                    : notificationMsg.status == "error"
-                      ? "bg-red-700"
-                      : "bg-green-700"
+                    : notificationMsg.status == "error" ? "bg-red-700" : "bg-green-700"
                 }
               />
             ) : (
@@ -130,20 +161,24 @@ const Tiers = function () {
       <section>
         <Container fluid={false}>
           <div className="grid grid-cols-4 gap-x-7">
-            {tiers.map((t, index) => (
-              <NftCard
-                owned={t.owned}
-                key={t.id}
-                name={t.name}
-                amount={t.amount}
-                index={index}
-                poster={t.logo}
-                video={t.video}
-                vestingPeriod={t.vestingPeriod}
-                buyNFT={buyNFT}
-                connected={wallet.connected}
-              />
-            ))}
+            {ferchTiers
+              ? tiers.map((t: any, index: any) => (
+                <NftCard
+                  owned={t.owned}
+                  key={t.id}
+                  id={t.id}
+                  name={t.name}
+                  amount={t.amount}
+                  index={index}
+                  poster={t.logo}
+                  video={t.video}
+                  vestingPeriod={t.vestingPeriod}
+                  buyNFT={buyNFT}
+                  connected={wallet.connected}
+                  data={t.data && t.data}
+                />
+              ))
+              : ""}
           </div>
         </Container>
       </section>
@@ -202,14 +237,10 @@ const Tiers = function () {
                   </p>
                 </div>
               </div>
-              {/*<div className="mt-12 flex justify-center rounded-md shadow">*/}
-              {/*	<Button value="Read More" />*/}
-              {/*</div>*/}
             </div>
           </div>
         </Container>
       </section>
-      {/*<EyeCatcher />*/}
     </>
   );
 };

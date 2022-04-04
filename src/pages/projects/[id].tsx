@@ -15,8 +15,6 @@ const project =
   cover: "https://storage.googleapis.com/polkastarter-production-assets/nfy5nnqh2v55q1dbfcynrqeipzcb"
 };
 
-const Logo = require("/public/images/team/Anthony.png")
-
 const markdown = `![](https://storage.googleapis.com/polkastarter-production-assets/h3bth4ctn32w62tmrk7a9cewyxn8)
 
 Sagittis scelerisque nulla cursus in enim consectetur quam.
@@ -70,7 +68,7 @@ let amount = 300000;
 const ProjectDetails = () => {
   const router = useRouter()
   
-  const {id} = router.query;
+  const { id } = router.query;
   
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -146,7 +144,7 @@ const ProjectDetails = () => {
                 <div className="flex text-white gap-x-3 mt-3 mb-6 items-center">
                   <img className="h-8" src="https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v/logo.png" alt="USDC" />
                   <div className="flex items-end gap-x-2 text-4xl font-bold">
-                    { amount.toLocaleString("en-US", {minimumFractionDigits: 0}) }
+                    { amount.toLocaleString("en-US", { minimumFractionDigits: 0 }) }
                     <span>USDC</span>
                   </div>
                 </div>
