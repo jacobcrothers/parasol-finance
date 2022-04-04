@@ -53,11 +53,10 @@ const Staking = () => {
 
   useEffect(() => {
     if (!wallet.connected) return;
-    if (helper) {
+    if (helper)
       getIOBalance().then();
-    } else {
+    else
       setIBalance(0);
-    }
   }, [wallet.publicKey]);
 
   useEffect(() => {
@@ -80,7 +79,8 @@ const Staking = () => {
       if (inputAmount !== +iBalance) {
         setInputAmount(val);
       }
-    } else {
+    } 
+    else {
       console.log("Please connect wallet");
     }
   };
@@ -91,7 +91,8 @@ const Staking = () => {
       if (inputAmount !== +iBalance / 2) {
         setInputAmount(val);
       }
-    } else {
+    } 
+    else {
       console.log("Please connect wallet");
     }
   };
@@ -99,18 +100,18 @@ const Staking = () => {
   const isBalanceAvailable = () => {
     if (iBalance < inputAmount) {
       setBalanceAvailable(false);
-    } else if (iBalance == inputAmount) {
-      if (inputAmount === 0) {
+    } 
+    else if (iBalance == inputAmount) {
+      if (inputAmount === 0)
         setBalanceAvailable(true);
-      } else {
+      else
         setBalanceAvailable(true);
-      }
-    } else {
-      if (inputAmount === 0) {
+    } 
+    else {
+      if (inputAmount === 0)
         setBalanceAvailable(true);
-      } else {
+      else
         setBalanceAvailable(true);
-      }
     }
   };
 
