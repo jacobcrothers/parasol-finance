@@ -23,7 +23,8 @@ import { getWalletAdapterNetwork } from "../core/solana-network";
 import { WalletModalProvider } from "../components/wallet-connector";
 import { NftProvider } from "../context/NftContext";
 
-import "../styles/globals.css";
+import "../styles/globals.scss";
+import { Toaster } from "react-hot-toast";
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   const network: WalletAdapterNetwork = getWalletAdapterNetwork(
@@ -77,8 +78,8 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
         <meta property="twitter:title" content="Parasol Finance ($PSOL) | Community Governed Launchpad on Solana."/>
         <meta property="twitter:description"
           content="Parasol Finance is the first-ever community governed IDO platform built on Solana with the needs of both projects and investors alike."/>
-        <meta property="og:image" content="/images/preview/default.png"/>
-        <meta property="twitter:image" content="/images/preview/default.png"/>
+        <meta property="og:image" content="/assets/preview/default.png"/>
+        <meta property="twitter:image" content="/assets/preview/default.png"/>
       </Head>
       <body>
         <ConnectionProvider endpoint={endpoint}>
@@ -88,11 +89,18 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
           >
             <WalletModalProvider>
               <AnnounceBar/>
+              <div className={"sticky top-0 w-full z-50"}>
+                <Toaster
+                  containerClassName={"!absolute !inset-0 w-full h-screen"}
+                  containerStyle={{}}
+                  position={"top-right"}
+                  gutter={0}/>
+              </div>
               <Header/>
               <main role="main">
                 <SimpleReactLightbox>
                   <TokenModalProvider>
-                    <NftProvider>
+                    <NftProvider {...pageProps} >
                       <Component {...pageProps} />
                     </NftProvider>
                   </TokenModalProvider>

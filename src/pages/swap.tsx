@@ -9,10 +9,10 @@ import { TokenChooserMode, useTokenModal } from "../components/token-chooser/use
 import { getPlatformFeeAccounts, Jupiter, RouteInfo, TOKEN_LIST_URL } from "@jup-ag/core";
 
 import { Token } from "../components/token-chooser/constants";
-import Notification from "../components/slices/notification";
 import { useWalletModal } from "../components/wallet-connector";
 import { getWalletAdapterNetwork } from "../core/solana-network";
 import Head from "next/head";
+import { notification } from "../utils/functions";
 
 const Swap = () => {
   const { connection } = useConnection();
@@ -35,7 +35,6 @@ const Swap = () => {
   const [swapStatus, setSwapStatus] = useState(true);
   const [swapResult, setSwapResult] = useState(false);
   const [balanceAvailable, setBalanceAvailable] = useState(true);
-  const [showNotification, setShowNotification] = useState(false);
   const [transactionFee, SetTransactionFee] = useState(0);
   const [requestable, setRequestable] = useState(false);
   const [rate, setRate] = useState("0");
@@ -47,7 +46,8 @@ const Swap = () => {
   useEffect(() => {
     getPlatformFeeAccounts(
       connection,
-      new PublicKey(process.env.PLATFORM_FEE_ADDRESS as any) // The platform fee account owner. Need to fetch this from the env
+      // The platform fee account owner. Need to fetch this from the env
+      new PublicKey(process.env.PLATFORM_FEE_ADDRESS as any)
     ).then((r) => {
       setPlatformFeeAndAccounts({
         feeBps: +(process.env.PLATFORM_FEE_PERCENTAGE as any) * 100,
@@ -207,14 +207,14 @@ const Swap = () => {
       console.log(swapResult);
       if ("error" in swapResult) {
         setSwapResult(false);
-        alert(`Error:${swapResult.error}`);
+        notification("danger", `Unable to swap: ${swapResult.error}`, "Transaction Error");
       }
       else if ("txid" in swapResult) {
         setSwapResult(true);
-        setShowNotification(true);
-        console.log("Sucess:", swapResult.txid);
-        console.log("Input:", swapResult.inputAmount);
-        console.log("Output:", swapResult.outputAmount);
+        notification("success", `TXID: ${swapResult.txid}`, "Transaction Success");
+        // console.log("Success:", swapResult.txid);
+        // console.log("Input:", swapResult.inputAmount);
+        // console.log("Output:", swapResult.outputAmount);
       }
     }
 
@@ -230,7 +230,7 @@ const Swap = () => {
       }
     }
     else {
-      console.log("Please connect wallet");
+      notification("information", "Please connect your wallet before.", "Connection Required");
     }
   };
   const getHalfAmount = () => {
@@ -243,7 +243,7 @@ const Swap = () => {
       }
     }
     else {
-      console.log("Please connect wallet");
+      notification("information", "Please connect your wallet before.", "Connection Required");
     }
   };
   const onBlurIAmountEvent = () => {
@@ -425,19 +425,10 @@ const Swap = () => {
       <Head>
         <title>Parasol Finance ($PSOL) | Swap</title>
         <meta name="title" content="Parasol Finance ($PSOL) | Swap"/>
-        <meta property="og:image" content="/images/preview/swap.png"/>
-        <meta property="twitter:image" content="/images/preview/swap.png"/>
+        <meta property="og:image" content="/assets/preview/swap.png"/>
+        <meta property="twitter:image" content="/assets/preview/swap.png"/>
       </Head>
       <section className="pt-6 pb-20">
-        {showNotification ? (
-          <Notification
-            title={swapResult ? "Transaction Success!" : "Transaction Faild!"}
-            source={swapResult ? "Transaction Success!" : "Transaction Faild!"}
-            color={swapResult ? "bg-green-700" : "bg-red-700"}
-          />
-        ) : (
-          ""
-        )}
         <div className="flex flex-col gap-y-6 max-w-md mx-auto mt-6">
           <div className="bg-[#231f38] bg-opacity-80 shadow-xl rounded-xl shadow-half-strong border border-gray-800 p-8">
             <div className={"flex justify-between items-end mb-4"}>
@@ -573,7 +564,7 @@ const Swap = () => {
               <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label>
               <div className="space-y-4">
                 {routes.length > 0 &&
-                  routes.map((route) => (
+                  routes.map((route: any) => (
                     <RadioGroup.Option
                       key={route.marketInfos[0].marketMeta.amm.label}
                       value={route}
