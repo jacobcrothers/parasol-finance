@@ -8,6 +8,17 @@ module.exports = {
     scrollbar: ["rounded"]
   },
   theme: {
+    screens : {
+      print: {'raw': 'print'},
+      xxs  : '320px',
+      xs   : '470px',
+      sm   : '600px',
+      md   : '800px',
+      s_lg : '910px',
+      m_lg : '1210px',
+      lg   : '1280px',
+      xl   : '1440px'
+    },
     extend: {
       colors: {
         "parasol": "#170F25",
@@ -18,7 +29,8 @@ module.exports = {
       boxShadow: {
         "strong": "0 0 1rem rgba(0, 0, 0, .3)",
         "half-strong": "0 0 1rem rgba(0, 0, 0, .1)",
-      }
+      },
+
     },
   },
   plugins: [
