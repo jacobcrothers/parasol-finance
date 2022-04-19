@@ -12,6 +12,7 @@ module.exports = {
       print: {'raw': 'print'},
       xxs  : '320px',
       xs   : '470px',
+      m_sm : '540px',
       sm   : '600px',
       md   : '800px',
       s_lg : '910px',

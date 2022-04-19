@@ -26,7 +26,7 @@ const Hero = () => (
           <h1 className="mt-4 text-3xl tracking-tight font-extrabold text-white sm:mt-5 sm:leading-none lg:mt-7 lg:text-4xl xl:text-6xl">
             <span className="md:block">The First Community</span>
             <span
-              className="text-transparent bg-clip-text bg-purple-2 leading-normal whitespace-nowrap md:block"><span
+              className="text-transparent bg-clip-text bg-purple-2 leading-normal whitespace-nowrap grid m_sm:block"><span
                 className="text-white">Governed</span> IDO Platform</span>
           </h1>
           <p className="mt-7 text-base text-gray-200 font-medium text-xl">

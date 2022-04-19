@@ -49,9 +49,9 @@ const ProjectCard = ({ Id, Name, Description, Logo, Cover }: ProjectDetails) => 
           <span>$0.21</span>
         </div>
       </div>
-      <div className="flex gap-x-3">
-        <button className="button py-3 flex-1 whitespace-nowrap text-base">Participate in IDO</button>
-        <button className="button py-3 flex-1 text-base">More Info</button>
+      <div className="grid gap-x-3 grid-cols-1 xxs:grid-cols-2">
+        <button className="button py-3 flex-1 text-base mb-3">Participate in IDO</button>
+        <button className="button py-3 flex-1 text-base mb-3">More Info</button>
       </div>
     </div>
   </Card>
