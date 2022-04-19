@@ -30,7 +30,7 @@ const projects = [
 const Projects = () => (
   <section>
     <Container>
-      <div className="md:float-right sm:flex gap-x-3 pt-3 uppercase text-sm grid gap-7 grid-cols-1 s_lg:grid-cols-2 m_lg:grid-cols-3 justify-center">
+      <div className="md:float-right sm:flex gap-x-3 pt-3 uppercase text-sm grid gap-7 grid-cols-1 s_lg:grid-cols-2 m_lg:grid-cols-3 justify-center xxs:pb-10">
         <div className="flex gap-x-2 items-center border border-white border-opacity-30 px-5 py-3 rounded-lg text-gray-200">
 					712 Participants
           <ChevronDownIcon className="h-5" />

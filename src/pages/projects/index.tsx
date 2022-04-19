@@ -54,7 +54,7 @@ const Projects = () => (
       description={"There is the list of the next IDOs and projects on Parasol."} />
     <section>
       <Container>
-        <div className="grid grid-cols-3 gap-7">
+        <div className="grid gap-7 grid-cols-1 s_lg:grid-cols-2 m_lg:grid-cols-3">
           {projects.map((project, index) => (
             <ProjectCard Id={project.id} Name={project.name} Description={project.description} Logo={project.logo} Cover={project.cover} key={index} />
           ))}
