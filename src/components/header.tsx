@@ -14,7 +14,8 @@ import {
   XIcon,
 } from "@heroicons/react/outline";
 import { ChevronDownIcon } from "@heroicons/react/solid";
-import { WalletConnect } from "./wallet-connector";
+import WalletConnect from "./wallet-connector/WalletConnect"
+// import { WalletConnect } from "./wallet-connector";
 
 import { recentPosts, resourcesMenu, toolsMenu } from "../constants/header";
 
@@ -22,7 +23,7 @@ import Logo from "/public/assets/logos/parasol-logo-inverted-rgb.svg";
 
 const Header = () => (
   <Popover className="relative">
-    <div className="max-w-7xl text-gray-200 mx-auto px-5">
+    <div className="max-w-7xl md:mt-6 text-gray-200 mx-auto px-5">
       <div className="flex justify-between items-center py-6 md:justify-start md:space-x-10">
         <div className="flex justify-start lg:w-0 lg:flex-1 min-w-[249px]">
           <Link href={"/"}>
@@ -413,7 +414,7 @@ const Header = () => (
           </Popover>
         </Popover.Group>
         <div className="hidden md:flex items-center gap-x-3 justify-end md:flex-1 lg:w-0">
-          <WalletConnect />
+          <WalletConnect Width={"origin"}/>
         </div>
       </div>
     </div>
@@ -452,8 +453,8 @@ const Header = () => (
             </div>
           </div>
           <div className="pb-6 space-y-6 px-6">
-            <div className="float-right mt-5"> 
-              <WalletConnect />
+            <div className="mt-5 w-full"> 
+              <WalletConnect Width={"full"}/>
             </div>
             <div className="flex flex-col gap-6">
               <Link href={"/swap"}>
