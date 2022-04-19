@@ -249,7 +249,7 @@ const Header = () => (
                                 <p className="text-base font-medium text-white">
                                   {item.name}
                                 </p>
-                                <p className="mt-1 text-sm text-gray-300">
+                                <p className="mt-1 text-sm text-white">
                                   {item.description}
                                 </p>
                               </div>
@@ -268,12 +268,12 @@ const Header = () => (
               <>
                 <Popover.Button
                   className={
-                    "group inline-flex items-center font-bold text-sm hover:text-gray-300"
+                    "group inline-flex items-center font-bold text-sm hover:text-white"
                   }
                 >
                   <span>More</span>
                   <ChevronDownIcon
-                    className={"ml-1 h-5 w-5 group-hover:text-gray-300"}
+                    className={"ml-1 h-5 w-5 group-hover:text-white"}
                     aria-hidden="true"
                   />
                 </Popover.Button>
@@ -298,7 +298,7 @@ const Header = () => (
                               <p className="text-base font-medium text-white">
                                 About Parasol Finance
                               </p>
-                              <p className="mt-1 text-sm text-gray-300">
+                              <p className="mt-1 text-sm text-white">
                                 Learn more about the Parasol Finance project.
                               </p>
                             </div>
@@ -313,7 +313,7 @@ const Header = () => (
                               <p className="text-base font-medium text-white">
                                 Frequently Asked Questions (FAQ)
                               </p>
-                              <p className="mt-1 text-sm text-gray-300">
+                              <p className="mt-1 text-sm text-white">
                                 The most frequently asked questions.
                               </p>
                             </div>
@@ -330,7 +330,7 @@ const Header = () => (
                             <p className="text-base font-medium text-white">
                               Read Documentation
                             </p>
-                            <p className="mt-1 text-sm text-gray-300">
+                            <p className="mt-1 text-sm text-white">
                               Some questions about how our platform works?
                             </p>
                           </div>
@@ -353,7 +353,7 @@ const Header = () => (
                             <p className="text-base font-medium text-white">
                               Official Medium Blog
                             </p>
-                            <p className="mt-1 text-sm text-gray-300">
+                            <p className="mt-1 text-sm text-white">
                               Read our latest articles on Medium.com.
                             </p>
                           </div>
@@ -367,7 +367,7 @@ const Header = () => (
                               <p className="text-base font-medium text-white">
                                 Contact Us
                               </p>
-                              <p className="mt-1 text-sm text-gray-300">
+                              <p className="mt-1 text-sm text-white">
                                 Something to tell us, please fill the form.
                               </p>
                             </div>
@@ -376,7 +376,7 @@ const Header = () => (
                       </div>
                       <div className="px-5 py-5 bg-[#2a2542] sm:px-8 sm:py-8">
                         <div>
-                          <h3 className="text-sm tracking-wide font-medium text-gray-400 uppercase">
+                          <h3 className="text-sm tracking-wide font-medium text-white uppercase">
                             Recent Posts
                           </h3>
                           <ul role="list" className="mt-4 space-y-4">
@@ -384,7 +384,7 @@ const Header = () => (
                               <li key={post.id} className="text-base truncate">
                                 <a
                                   href={post.href}
-                                  className="font-medium text-gray-300"
+                                  className="font-medium text-white"
                                 >
                                   {post.name}
                                 </a>
@@ -430,7 +430,7 @@ const Header = () => (
         focus
         className="absolute top-0 inset-x-0 transition transform origin-top-right md:hidden z-50"
       >
-        <div className="shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
+        <div className="shadow-lg ring-1 ring-black ring-opacity-5 divide-y-2 divide-gray-50 bg-header-color">
           <div className="pt-5 px-5">
             <div className="flex items-center justify-between">
               <div className="flex justify-start lg:w-0 lg:flex-1">
@@ -441,7 +441,7 @@ const Header = () => (
                 </Link>
               </div>
               <div className="-mr-2">
-                <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-black hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                   <span className="sr-only">Close menu</span>
                   <XIcon className="h-6 w-6" aria-hidden="true" />
                 </Popover.Button>
@@ -452,9 +452,12 @@ const Header = () => (
             </div>
           </div>
           <div className="pb-6 space-y-6 px-6">
+            <div className="float-right mt-5"> 
+              <WalletConnect />
+            </div>
             <div className="flex flex-col gap-6">
               <Link href={"/swap"}>
-                <a className="font-bold text-sm pt-6 hover:text-gray-900 text-gray-900">
+                <a className="font-bold text-sm pt-6 hover:text-white text-white">
                   Swap
                 </a>
               </Link>
@@ -462,10 +465,10 @@ const Header = () => (
                 {({ open = true }) => {
                   return (
                     <>
-                      <Popover.Button className="group inline-flex gap-x-1 items-center font-bold text-sm hover:text-gray-900 text-gray-900">
+                      <Popover.Button className="group inline-flex gap-x-1 items-center font-bold text-sm hover:text-white text-white">
                         <span>Launchpad</span>
                         <ChevronDownIcon
-                          className={"h-5 w-5 group-hover:text-gray-900"}
+                          className={"h-5 w-5 group-hover:text-white"}
                           aria-hidden="true"
                         />
                       </Popover.Button>
@@ -488,10 +491,10 @@ const Header = () => (
                                     aria-hidden="true"
                                   />
                                   <div className="ml-4">
-                                    <p className="text-base font-medium text-black">
+                                    <p className="text-base font-medium text-white">
                                       Upcoming Projects
                                     </p>
-                                    <p className="mt-1 text-sm text-black">
+                                    <p className="mt-1 text-sm text-white">
                                       All the new projects of Parasol Finance
                                     </p>
                                   </div>
@@ -520,10 +523,10 @@ const Header = () => (
                                   {/*<SparklesIcon className="flex-shrink-0 h-6 w-6 text-purple-2"*/}
                                   {/*              aria-hidden="true"/>*/}
                                   <div className="ml-4">
-                                    <p className="text-base font-medium text-black">
+                                    <p className="text-base font-medium text-white">
                                       NFT Access Keys
                                     </p>
-                                    <p className="mt-1 text-sm text-black">
+                                    <p className="mt-1 text-sm text-white">
                                       Our unique tiers system using NFTs
                                     </p>
                                   </div>
@@ -558,10 +561,10 @@ const Header = () => (
                                     />
                                   </svg>
                                   <div className="ml-4">
-                                    <p className="text-base font-medium text-black">
+                                    <p className="text-base font-medium text-white">
                                       Projects Seeding
                                     </p>
-                                    <p className="mt-1 text-sm text-black">
+                                    <p className="mt-1 text-sm text-white">
                                       Vote for the new projects that have just
                                       arrived.
                                     </p>
@@ -579,7 +582,7 @@ const Header = () => (
                                     alt="project"
                                   />
                                   <div className="ml-4">
-                                    <p className="flex items-center text-base font-medium text-black">
+                                    <p className="flex items-center text-base font-medium text-white">
                                       Tina Arena
                                       <label
                                         className={
@@ -589,7 +592,7 @@ const Header = () => (
                                         Sponsored
                                       </label>
                                     </p>
-                                    <p className="mt-1 text-sm text-black">
+                                    <p className="mt-1 text-sm text-white">
                                       Thetan Arena is an esport game.
                                     </p>
                                   </div>
@@ -605,10 +608,10 @@ const Header = () => (
                                   >
                                     <FolderAddIcon className="h-6 w-6 text-purple-2" />
                                     <div className="ml-3">
-                                      <p className="text-base font-medium text-black">
+                                      <p className="text-base font-medium text-white">
                                         Submit Your Project
                                       </p>
-                                      <p className="mt-1 text-sm text-black">
+                                      <p className="mt-1 text-sm text-white">
                                         You can launch your project in a few
                                         clicks
                                       </p>
@@ -625,7 +628,7 @@ const Header = () => (
                 }}
               </Popover>
               <Link href={"/staking"}>
-                <a className="font-bold text-sm hover:text-gray-300 text-gray-900">
+                <a className="font-bold text-sm hover:text-gray-300 text-white">
                   Staking
                 </a>
               </Link>
@@ -633,10 +636,10 @@ const Header = () => (
                 {({ open = true }) => {
                   return (
                     <>
-                      <Popover.Button className="group inline-flex gap-x-1 items-center font-bold text-sm hover:text-gray-900 text-gray-900">
+                      <Popover.Button className="group inline-flex gap-x-1 items-center font-bold text-sm hover:text-white text-white">
                         <span>Tools</span>
                         <ChevronDownIcon
-                          className={"h-5 w-5 group-hover:text-gray-900"}
+                          className={"h-5 w-5 group-hover:text-white"}
                           aria-hidden="true"
                         />
                       </Popover.Button>
@@ -663,10 +666,10 @@ const Header = () => (
                                     aria-hidden="true"
                                   />
                                   <div className="ml-4">
-                                    <p className="text-base font-medium text-black">
+                                    <p className="text-base font-medium text-white">
                                       {item.name}
                                     </p>
-                                    <p className="mt-1 text-sm text-gray-900">
+                                    <p className="mt-1 text-sm text-white">
                                       {item.description}
                                     </p>
                                   </div>
@@ -685,12 +688,12 @@ const Header = () => (
                   <>
                     <Popover.Button
                       className={
-                        "group inline-flex items-center font-bold text-sm hover:text-gray-900 text-gray-900"
+                        "group inline-flex items-center font-bold text-sm hover:text-white text-white"
                       }
                     >
                       <span>More</span>
                       <ChevronDownIcon
-                        className={"ml-1 h-5 w-5 group-hover:text-gray-300"}
+                        className={"ml-1 h-5 w-5 group-hover:text-white"}
                         aria-hidden="true"
                       />
                     </Popover.Button>
@@ -714,10 +717,10 @@ const Header = () => (
                                   }
                                 />
                                 <div className="ml-4">
-                                  <p className="text-base font-medium text-black">
+                                  <p className="text-base font-medium text-white">
                                     About Parasol Finance
                                   </p>
-                                  <p className="mt-1 text-sm text-gray-900">
+                                  <p className="mt-1 text-sm text-white">
                                     Learn more about the Parasol Finance
                                     project.
                                   </p>
@@ -732,10 +735,10 @@ const Header = () => (
                                   }
                                 />
                                 <div className="ml-4">
-                                  <p className="text-base font-medium text-black">
+                                  <p className="text-base font-medium text-white">
                                     Frequently Asked Questions (FAQ)
                                   </p>
-                                  <p className="mt-1 text-sm text-gray-900">
+                                  <p className="mt-1 text-sm text-white">
                                     The most frequently asked questions.
                                   </p>
                                 </div>
@@ -751,10 +754,10 @@ const Header = () => (
                                 }
                               />
                               <div className="ml-4">
-                                <p className="text-base font-medium text-black">
+                                <p className="text-base font-medium text-white">
                                   Read Documentation
                                 </p>
-                                <p className="mt-1 text-sm text-gray-900">
+                                <p className="mt-1 text-sm text-white">
                                   Some questions about how our platform works?
                                 </p>
                               </div>
@@ -776,10 +779,10 @@ const Header = () => (
                                 />
                               </svg>
                               <div className="ml-4">
-                                <p className="text-base font-medium text-black">
+                                <p className="text-base font-medium text-white">
                                   Official Medium Blog
                                 </p>
-                                <p className="mt-1 text-sm text-gray-900">
+                                <p className="mt-1 text-sm text-white">
                                   Read our latest articles on Medium.com.
                                 </p>
                               </div>
@@ -792,10 +795,10 @@ const Header = () => (
                                   }
                                 />
                                 <div className="ml-4">
-                                  <p className="text-base font-medium text-black">
+                                  <p className="text-base font-medium text-white">
                                     Contact Us
                                   </p>
-                                  <p className="mt-1 text-sm text-gray-900">
+                                  <p className="mt-1 text-sm text-white">
                                     Something to tell us, please fill the form.
                                   </p>
                                 </div>
@@ -804,7 +807,7 @@ const Header = () => (
                           </div>
                           <div className="px-8">
                             <div>
-                              <h3 className="text-sm tracking-wide font-medium text-gray-900 uppercase">
+                              <h3 className="text-sm tracking-wide font-medium text-white uppercase">
                                 Recent Posts
                               </h3>
                               <ul role="list" className="mt-4 space-y-4">
@@ -815,7 +818,7 @@ const Header = () => (
                                   >
                                     <a
                                       href={post.href}
-                                      className="font-medium text-gray-900"
+                                      className="font-medium text-white"
                                     >
                                       {post.name}
                                     </a>
