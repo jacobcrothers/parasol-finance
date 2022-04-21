@@ -566,7 +566,7 @@ const Swap = () => {
                 {routes.length > 0 &&
                   routes.map((route: any) => (
                     <RadioGroup.Option
-                      key={route.marketInfos[0].marketMeta.amm.label}
+                      key={route.marketInfos[0].amm.label}
                       value={route}
                       className={({ active, checked }) =>
                         `${
@@ -590,7 +590,7 @@ const Swap = () => {
                                   checked ? "text-white" : ""
                                 }`}
                               >
-                                {route.marketInfos[0].marketMeta.amm.label}
+                                {route.marketInfos[0].amm.label}
                               </RadioGroup.Label>
                               <RadioGroup.Description
                                 as="span"
