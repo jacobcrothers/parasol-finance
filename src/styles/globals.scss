@@ -4,11 +4,21 @@
 @tailwind typography;
 
 @layer components {
+  .mask-image {
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1), rgba(0,0,0,0));
+  }
+}
+
+@layer components {
   .card {
     background-color: theme('colors.card');
     border-radius: theme('borderRadius.lg');
     box-shadow: theme('boxShadow.half-strong');
     border: 1px solid rgb(31 41 55);
+  }
+
+  .white {
+    @apply bg-white text-gray-800 border-none shadow-none;
   }
 
   .padded {
@@ -28,6 +38,10 @@
   div>.button:nth-child(2):not(.except) {
     @apply bg-none bg-white text-purple-2;
   }
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -132,7 +146,7 @@ input[type="number"] {
 
 .image-tool__image-picture {
   margin: 0;
-  @apply rounded-lg cursor-pointer transition-transform duration-300;
+  @apply w-full rounded-lg cursor-pointer transition-transform duration-300;
 }
 
 .image-tool .cdx-button>svg {
@@ -200,4 +214,20 @@ input[type="range"]::-ms-fill-lower {
 
 input[type="range"]::-ms-fill-upper {
   background-color: #231f38;
+}
+
+#nprogress .bar
+{
+  @apply bg-white #{!important};
+}
+
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #29d, 0 0 5px #b064fe !important;
+}
+
+#nprogress .spinner-icon
+{
+  border-top-color: white !important;
+  border-left-color: white !important;
 }

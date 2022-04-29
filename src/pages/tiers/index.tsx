@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { SwitchVerticalIcon, UploadIcon } from "@heroicons/react/outline";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
@@ -22,7 +22,7 @@ const Tiers = function () {
       amount: 210,
       logo: "/assets/nft-access-keys/covers/Dreamer.png",
       video: "/assets/nft-access-keys/videos/Dreamer.mp4",
-      vestingPeriod: 12,
+      vestingPeriod: 12
     },
     {
       id: 1,
@@ -30,7 +30,7 @@ const Tiers = function () {
       amount: 2100,
       logo: "/assets/nft-access-keys/covers/Rider.png",
       video: "/assets/nft-access-keys/videos/Rider.mp4",
-      vestingPeriod: 8,
+      vestingPeriod: 8
     },
     {
       id: 2,
@@ -38,8 +38,7 @@ const Tiers = function () {
       amount: 21000,
       logo: "/assets/nft-access-keys/covers/Chiller.png",
       video: "/assets/nft-access-keys/videos/Chiller.mp4",
-      vestingPeriod: 6,
-      // owned: true,
+      vestingPeriod: 6
     },
     {
       id: 3,
@@ -47,12 +46,11 @@ const Tiers = function () {
       amount: 210000,
       logo: "/assets/nft-access-keys/covers/MoonWalker.png",
       video: "/assets/nft-access-keys/videos/MoonWalker.mp4",
-      vestingPeriod: 4,
+      vestingPeriod: 4
     },
   ]);
 
-  const { provider, nfts, setNfts, nftKinds, wallet, user } =
-    React.useContext(NftContext);
+  const { provider, nfts, nftKinds, wallet, user } = useContext(NftContext);
 
   const buyNFT = async (index: number) => {
     try {
@@ -79,8 +77,7 @@ const Tiers = function () {
       const tiersDataArray: any = tiers;
       await Promise.all(
         nftKinds.map(async (nftKind: any) => {
-          const data = await nftKind.data();
-          tiersDataArray[nftKind.tier].data = data;
+          tiersDataArray[nftKind.tier].data = await nftKind.data();
         })
       );
       setTiers(tiersDataArray);
@@ -89,14 +86,15 @@ const Tiers = function () {
     nftKindData();
   }, []);
 
+  const activeNft = (items: [any], tiers: any) => {
+    return items.some(x => x.attributes[0]["value"] == tiers.name);
+  };
+
   return (
     <>
       <Head>
         <title>Parasol Finance ($PSOL) | NFT Access Keys</title>
-        <meta
-          name="title"
-          content="Parasol Finance ($PSOL) | NFT Access Keys"
-        />
+        <meta name="title" content="Parasol Finance ($PSOL) | NFT Access Keys" />
         <meta property="og:image" content="/assets/preview/tiers.png" />
         <meta property="twitter:image" content="/assets/preview/tiers.png" />
       </Head>
@@ -122,13 +120,13 @@ const Tiers = function () {
             </div>
             <div className={"flex gap-x-2 md:justify-end items-center justify-center mt-5"}>
               <Link href={"/tiers/migrate"}>
-                <a className="inline-flex relative gap-x-2 items-center border border-white border-opacity-30 hover:bg-white hover:bg-opacity-5 px-5 py-3 rounded-lg text-gray-300">
+                <a className="flex gap-x-2 items-center bg-white bg-opacity-5 hover:bg-opacity-10 px-5 py-3 rounded-lg text-gray-200">
                   <UploadIcon className={"w-4"} />
                   Migrate
                 </a>
               </Link>
               <Link href={"/tiers/redeem"}>
-                <a className="inline-flex gap-x-2 items-center border border-white border-opacity-30 hover:bg-white hover:bg-opacity-5 px-5 py-3 rounded-lg text-gray-200">
+                <a className="flex gap-x-2 items-center bg-white bg-opacity-5 hover:bg-opacity-10 px-5 py-3 rounded-lg text-gray-200">
                   <SwitchVerticalIcon className={"w-4"} />
                   Redeem
                 </a>
@@ -143,7 +141,7 @@ const Tiers = function () {
             {fetchTiers
               ? tiers.map((t: any, index: any) => (
                 <NftCard
-                  owned={t.owned}
+                  owned={activeNft(nfts, t)}
                   key={t.id}
                   id={t.id}
                   name={t.name}

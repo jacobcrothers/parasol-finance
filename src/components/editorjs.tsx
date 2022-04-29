@@ -10,28 +10,27 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { sign } from "tweetnacl";
 
 import "node-snackbar/dist/snackbar.min.css";
-import { notification } from "../utils/functions";
+import { notification, slugify } from "../utils/functions";
 import ImageTool from "@editorjs/image";
-import {
-  deleteObject,
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable, } from "firebase/storage";
 import axios from "axios";
 
 const Quote = require("@editorjs/quote");
 
 interface props {
-  tokenAddress: any;
-  isOwner: boolean;
+  projectPubKey: any;
   content: any;
+  isOwner?: boolean;
+  oldCover?: string;
+  isCoverUpdated?: boolean;
+  coverFile?: any;
+  loading?: boolean;
+  setLoading?: any;
 }
 
-const EditorJs: React.FC<props> = ({ tokenAddress, isOwner, content }) => {
-  const idosCollectionRef: any = doc(db, "idos", tokenAddress);
+const EditorJs: React.FC<props> = ({ projectPubKey, isOwner, content, oldCover, isCoverUpdated, coverFile, loading, setLoading }) => {
+  const idosCollectionRef: any = doc(db, "ido-metadata", projectPubKey);
   const [editor, setEditor] = useState<any>(null);
-  const [saveState, setSaveState] = useState(false);
 
   const { publicKey, signMessage } = useWallet();
 
@@ -43,16 +42,18 @@ const EditorJs: React.FC<props> = ({ tokenAddress, isOwner, content }) => {
   useEffect(() => {
     if (editor) editor.destroy();
 
-    editorContent.blocks.map(async (block: any, index: number) => {
-      if ((await block.type) == "image") {
-        await axios.get(block.data.file.url).catch(function (error) {
-          if (error.response) {
-            delete editorContent.blocks[index];
-          }
-        });
-      }
-    });
-    setEditorContent(editorContent);
+    if (editorContent.blocks) {
+      editorContent.blocks.map(async (block: any, index: number) => {
+        if ((await block.type) == "image") {
+          await axios.get(block.data.file.url).catch(function (error) {
+            if (error.response) {
+              delete editorContent.blocks[index];
+            }
+          });
+        }
+      });
+      setEditorContent(editorContent);
+    }
 
     initEditor();
   }, [isOwner]);
@@ -67,6 +68,9 @@ const EditorJs: React.FC<props> = ({ tokenAddress, isOwner, content }) => {
       tools: {
         header: {
           class: Header,
+          config: {
+            defaultLevel: 2
+          },
           inlineToolbar: true,
         },
         list: {
@@ -93,7 +97,7 @@ const EditorJs: React.FC<props> = ({ tokenAddress, isOwner, content }) => {
                 return new Promise((resolve, reject) => {
                   const storageRef = ref(
                     storage,
-                    `projects/${tokenAddress}/editor/${dateTime + file.name}`
+                    `projects/${projectPubKey}/editor/${dateTime + file.name}`
                   );
 
                   const task = uploadBytesResumable(storageRef, file);
@@ -118,11 +122,17 @@ const EditorJs: React.FC<props> = ({ tokenAddress, isOwner, content }) => {
       onChange: (api: any, event: any) => {
         if (event.type == "block-removed") {
           const index = event.detail.index;
-          if (blocksArray[index].type == "image") {
+          if (blocksArray && blocksArray[index].type == "image") {
             const url = blocksArray[index].data.file.url;
             setImagesToRemove((preValue: Array<string>) => [...preValue, url]);
             blocksArray.splice(index, 1);
           }
+        }
+      },
+      onReady: () => {
+        var headers = document.getElementsByClassName("ce-header");
+        for (var i = 0; i < headers.length; i++) {
+          headers[i].setAttribute("id", slugify(headers[i].innerHTML));
         }
       },
       data: editorContent,
@@ -140,36 +150,69 @@ const EditorJs: React.FC<props> = ({ tokenAddress, isOwner, content }) => {
   }, [editor]);
 
   useEffect(() => {
-    if (saveState) saveChanges();
-  }, [saveState]);
+    if (loading) saveChanges();
+  }, [loading]);
+
+  const changeCover = async () => {
+    if (isCoverUpdated) {
+      const storageRef = ref(storage, `projects/${projectPubKey}/${coverFile.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, coverFile);
+      await uploadTask.on(
+        "state_changed",
+        (snapshot) => { },
+        (error) => notification("danger", "Unable to save your cover.", "Update IDO"),
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (cover) => {
+            await updateDoc(idosCollectionRef, {
+              cover,
+            });
+            const imgRef: any = ref(storage, oldCover);
+            deleteObject(imgRef)
+            notification(
+              "success",
+              "Cover was successfully saved.",
+              "Update IDO"
+            );
+            setLoading(false);
+          });
+        }
+      );
+    }
+  }
 
   const saveChanges = async () => {
-    await editor
-      .save()
-      .then(async (outputData: any) => {
-        imagesToRemove.map((url: string) => {
-          const imgRef: any = ref(storage, url);
-          deleteObject(imgRef)
-            .then(() => {
-              // console.log("deleted")
-            })
-            .catch((error) => {
-              // console.log(error)
-            });
+    try {
+      await changeCover();
+      await editor
+        .save()
+        .then(async (outputData: any) => {
+          imagesToRemove.map((url: string) => {
+            const imgRef: any = ref(storage, url);
+            deleteObject(imgRef)
+          });
+          await updateDoc(idosCollectionRef, {
+            content: JSON.stringify(outputData),
+          });
+          notification(
+            "success",
+            "Content was successfully saved.",
+            "Update IDO"
+          );
+        })
+        .catch((error: any) => {
+          notification("danger", "Unable to save your content.", "Update IDO");
         });
-        await updateDoc(idosCollectionRef, {
-          content: JSON.stringify(outputData),
-        });
-        notification(
-          "success",
-          "Content was successfully saved.",
-          "Update IDO"
-        );
-      })
-      .catch((error: any) => {
-        notification("danger", "Unable to save your changes.", "Update IDO");
-      });
-    setSaveState(false);
+
+      if (!isCoverUpdated) setLoading(false);
+    }
+    catch (error) {
+      setLoading(false);
+      notification(
+        "danger",
+        "Unable to save your changes.",
+        "Update IDO"
+      );
+    }
   };
 
   const signWallet = useCallback(async () => {
@@ -190,8 +233,8 @@ const EditorJs: React.FC<props> = ({ tokenAddress, isOwner, content }) => {
       if (!sign.detached.verify(message, signature, publicKey.toBytes()))
         throw new Error("Invalid signature!");
 
-      setSaveState(true);
-    } 
+      setLoading(true);
+    }
     catch (error: any) {
       notification(
         "danger",

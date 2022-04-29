@@ -52,23 +52,28 @@ const Hero = () => (
           </p>
           <div className="flex justify-center mt-6 sm:justify-between">
             <p className="text-gray-200 text-lg font-bold mb-3 truncate">
-              Buy your NFT access key now! (limited quantity) 🎉
+              The first launchpad with a NFT allocation system.
             </p>
           </div>
           <div className="mt-8 grid lg:flex gap-3 grid-cols-1 lg:grid-cols-2 justify-start">
             <Link href={"/projects"}>
-              <a className="button px-10 bg-none bg-purple-2 py-3 text-base">
+              <a className="button px-8 bg-none bg-purple-2 py-3 text-base">
                 <CollectionIcon className={"w-5 h-5"} />
-                View Upcoming IDOs
+                Browse Upcoming IDOs
               </a>
             </Link>
+            {/*<Link href={"/tiers"}>*/}
+            {/*  <a className="button border border-white bg-none except px-6 py-3 text-base">*/}
+            {/*    <ShoppingBagIcon className={"w-5 h-5"} />*/}
+            {/*    Buy NFT Access Key*/}
+            {/*  </a>*/}
+            {/*</Link>*/}
             <Link href={"/swap"}>
               <a className="button border border-white bg-none except py-3 text-base">
                 <svg
                   className="w-5 h-5"
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 125.5752 144.6496"
-                >
+                  viewBox="0 0 125.5752 144.6496">
                   <g>
                     <path
                       fill="currentColor"

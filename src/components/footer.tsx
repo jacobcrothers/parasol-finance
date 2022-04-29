@@ -77,16 +77,19 @@ const Footer = () => (
               </li>
               <li>
                 <a href="https://docs.parasol.finance" target="_blank"
-                  className="text-base" rel="noreferrer">Documentation</a>
+                  className="text-base" rel="noreferrer">Documentation
+                </a>
               </li>
               <li>
                 <a href="https://github.com/parasol-finance" target="_blank"
-                  className="text-base" rel="noreferrer">Github Organization</a>
+                  className="text-base" rel="noreferrer">Github Organization
+                </a>
               </li>
               <li>
-                <a href="https://explorer.solana.com/address/Hmatmu1ktLbobSvim94mfpZmjL5iiyoM1zidtXJRAdLZ"
+                <a href="https://explorer.solana.com/address/PFo38bhqnYn9ntEs6GHN5LAi26QX1tBxMabmqu5LtX9"
                   target="_blank" className="text-base" rel="noreferrer">Token
-                                    Address</a>
+                                                                          Address
+                </a>
               </li>
             </ul>
           </div>
@@ -121,7 +124,7 @@ const Footer = () => (
         <div className="md:grid md:grid-cols-2 md:gap-8">
           <div>
             <h3 className="text-sm font-bold  tracking-wider uppercase">Social
-              Links
+                                                                        Links
             </h3>
             <ul role="list" className="mt-4 space-y-4">
               <li>
@@ -184,7 +187,7 @@ const Footer = () => (
               d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
               clipRule="evenodd"/>
           </svg>
-          in Europe - Crafted by Clint.Network
+          in Europe - Crafted by <a href={"https://twitter.com/thisisclint21"} className={"font-medium"} target={"_blank"} rel={"noreferrer"}>Clint ⚡️</a>
         </p>
       </div>
     </div>

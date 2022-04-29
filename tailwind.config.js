@@ -8,22 +8,10 @@ module.exports = {
     scrollbar: ["rounded"],
   },
   theme: {
-    screens: {
-      print: { raw: "print" },
-      xxs: "320px",
-      xs: "470px",
-      m_sm: "540px",
-      sm: "600px",
-      md: "800px",
-      s_lg: "910px",
-      m_lg: "1210px",
-      lg: "1280px",
-      xl: "1440px",
-    },
     extend: {
       colors: {
         parasol: "#170F25",
-        card: "rgba(35,31,56,0.5)",
+        card: "rgba(35,31,56,.7)",
         "purple-1": "#7939ff",
         "purple-2": "#b064fe",
         "header-color": "#231f38",
@@ -37,6 +25,7 @@ module.exports = {
   plugins: [
     require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),
+    require("@tailwindcss/line-clamp"),
     require("tailwind-scrollbar"),
   ],
 };

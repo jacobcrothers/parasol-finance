@@ -135,10 +135,10 @@ const SecretumLogo = (
 );
 
 const Brands = () => (
-  <section className={"pb-6"}>
+  <section>
     <Container>
       <div
-        className={"gap-x-20 justify-around items-center grid grid-cols-2 px-2 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:grid-cols-5"}>
+        className={"gap-x-20 mb-10 lg:mb-0 justify-around items-center grid grid-cols-2 px-2 gap-10 sm:grid-cols-2 lg:grid-cols-5"}>
         <a href={"https://solana.com/"} target={"_blank"} rel="noreferrer">
           {SolanaLogo}
         </a>
